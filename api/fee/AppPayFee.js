@@ -1,9 +1,10 @@
-import context from '../../lib/java110/Java110Context.js';
+import context from '../../lib/proprietor/proprietorContext.js';
 
 import mapping from '../../constant/MappingConstant.js'
 import url from '../../constant/url.js'
 
 import conf from '../../conf/config.js'
+import { i18n } from '@/main.js'
 
 export function payOweFee(_that) {
 	let _receivedAmount = _that.receivableAmount;
@@ -15,7 +16,7 @@ export function payOweFee(_that) {
 		cycles: _that.feeMonth,
 		communityId: _that.communityId,
 		ownerId: _that.ownerId,
-		feeName: '物业费',
+		feeName: i18n.t('物业费-bRl'),
 		receivedAmount: _receivedAmount,
 		tradeType: _tradeType,
 		appId: conf.appId,
@@ -65,7 +66,7 @@ export function payOweFee(_that) {
 
 			wx.hideLoading();
 			wx.showToast({
-				title: "缴费失败",
+				title: i18n.t("缴费失败-UVj"),
 				icon: 'none',
 				duration: 2000
 			});
@@ -73,7 +74,7 @@ export function payOweFee(_that) {
 		fail: function(e) {
 			wx.hideLoading();
 			wx.showToast({
-				title: "服务器异常了",
+				title: i18n.t("服务器异常了-eja"),
 				icon: 'none',
 				duration: 2000
 			});

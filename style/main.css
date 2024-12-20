@@ -11,7 +11,7 @@
         初始化
  ==================== */
 body {
-	background-color: #f1f1f1;
+	background-color: #f8f9fa;
 	font-size: 28upx;
 	color: #333333;
 	font-family: Helvetica Neue, Helvetica, sans-serif;
@@ -271,8 +271,8 @@ radio.radio .uni-radio-input-checked::after {
 
 .switch-sex[checked] .wx-switch-input,
 .switch-sex.checked .uni-switch-input {
-	background: #0081ff !important;
-	border-color: #0081ff !important;
+	background: #c21da0 !important;
+	border-color: #c21da0 !important;
 }
 
 switch.red[checked] .wx-switch-input.wx-switch-input-checked,
@@ -331,10 +331,10 @@ checkbox.green.checked .uni-checkbox-input,
 checkbox.checked .uni-checkbox-input,
 radio.green.checked .uni-radio-input,
 radio.checked .uni-radio-input {
-	background-color: #39b54a !important;
-	border-color: #39b54a !important;
+	background-color: #c21da0 !important;
+	border-color: #c21da0 !important;
 	color: #ffffff !important;
-	border-color: #39B54A !important;
+	border-color: #c21da0 !important;
 }
 
 switch.cyan[checked] .wx-switch-input,
@@ -354,8 +354,8 @@ radio.blue[checked] .wx-radio-input,
 switch.blue.checked .uni-switch-input,
 checkbox.blue.checked .uni-checkbox-input,
 radio.blue.checked .uni-radio-input {
-	background-color: #0081ff !important;
-	border-color: #0081ff !important;
+	background-color: #c21da0 !important;
+	border-color: #c21da0 !important;
 	color: #ffffff !important;
 }
 
@@ -1301,7 +1301,7 @@ button.cuIcon.lg {
 	height: 200%;
 	border-bottom: 1upx solid #ddd;
 	border-radius: inherit;
-	content: " ";
+	content: none;
 	transform: scale(.5);
 	transform-origin: 0 0;
 	pointer-events: none
@@ -1328,7 +1328,7 @@ button.cuIcon.lg {
 	margin: auto;
 	width: 30upx;
 	height: 30upx;
-	color: #8799a3;
+	color: #d8d8d8;
 	content: "\e6a3";
 	text-align: center;
 	font-size: 34upx;
@@ -1364,15 +1364,15 @@ button.cuIcon.lg {
 
 .cu-list.menu>.cu-item .content>image {
 	display: inline-block;
-	margin-right: 10upx;
-	width: 1.6em;
-	height: 1.6em;
+	margin-right: 40rpx;
+	width: 60rpx;
+	height: 60rpx;
 	vertical-align: middle
 }
 
 .cu-list.menu>.cu-item .content {
-	font-size: 30upx;
-	line-height: 1.6em;
+	font-size: 26rpx;
+	line-height: 26rpx;
 	flex: 1
 }
 
@@ -1390,7 +1390,8 @@ button.cuIcon.lg {
 
 .cu-list.menu {
 	display: block;
-	overflow: hidden
+	overflow: hidden;
+  border-radius: 20rpx;
 }
 
 .cu-list.menu.sm-border>.cu-item:after {
@@ -3350,7 +3351,7 @@ scroll-view.cu-steps .cu-item {
 
 .line-green::after,
 .lines-green::after {
-	border-color: #39b54a;
+	border-color: #c21da0;
 }
 
 .line-cyan::after,
@@ -3360,7 +3361,7 @@ scroll-view.cu-steps .cu-item {
 
 .line-blue::after,
 .lines-blue::after {
-	border-color: #0081ff;
+	border-color: #c21da0;
 }
 
 .line-purple::after,
@@ -3424,7 +3425,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-green {
-	background-color: #39b54a;
+	background-color: #c21da0;
 	color: #ffffff;
 }
 
@@ -3433,8 +3434,8 @@ scroll-view.cu-steps .cu-item {
 	color: #ffffff;
 }
 
-.bg-blue {
-	background-color: #0081ff;
+.bg-primary {
+	background-color: #c21da0;
 	color: #ffffff;
 }
 
@@ -3475,7 +3476,7 @@ scroll-view.cu-steps .cu-item {
 
 .bg-white {
 	background-color: #ffffff;
-	color: #666666;
+	color: #999999;
 }
 
 .bg-shadeTop {
@@ -3509,7 +3510,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-green.light {
-	color: #39b54a;
+	color: #c21da0;
 	background-color: #d7f0dbff;
 }
 
@@ -3518,8 +3519,8 @@ scroll-view.cu-steps .cu-item {
 	background-color: #d2f1f0;
 }
 
-.bg-blue.light {
-	color: #0081ff;
+.bg-primary.light {
+	color: #c21da0;
 	background-color: #cce6ff;
 }
 
@@ -3559,7 +3560,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-gradual-green {
-	background-image: linear-gradient(45deg, #39b54a, #8dc63f);
+	background-image: linear-gradient(45deg, #c21da0, #8dc63f);
 	color: #ffffff;
 }
 
@@ -3574,7 +3575,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-gradual-blue {
-	background-image: linear-gradient(45deg, #0081ff, #1cbbb4);
+	background-image: linear-gradient(45deg, #c21da0, #1cbbb4);
 	color: #ffffff;
 }
 
@@ -3790,7 +3791,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .text-price::before {
-	content: "¥";
+	content: "MOP";
 	font-size: 80%;
 	margin-right: 4upx;
 }
@@ -3848,7 +3849,7 @@ scroll-view.cu-steps .cu-item {
 .text-green,
 .line-green,
 .lines-green {
-	color: #39b54a;
+	color: #c21da0;
 }
 
 .text-cyan,
@@ -3860,7 +3861,7 @@ scroll-view.cu-steps .cu-item {
 .text-blue,
 .line-blue,
 .lines-blue {
-	color: #0081ff;
+	color: #c21da0;
 }
 
 .text-purple,
@@ -3902,7 +3903,7 @@ scroll-view.cu-steps .cu-item {
 .text-black,
 .line-black,
 .lines-black {
-	color: #333333;
+	color: #2E3845;
 }
 
 .text-white,
@@ -3912,4 +3913,24 @@ scroll-view.cu-steps .cu-item {
 }
 .c-radius{
 	border-radius: 20upx;
+}
+
+.pages-tabbar {
+  overflow: hidden;
+  position: relative;
+}
+
+.header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 350rpx;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #C21DA0 0%, #5E66AE 100%);
+  border-radius: 0 0 80% 80% / 0% 0 40% 40%;
+}
+
+.position-relative {
+  position: relative;
 }

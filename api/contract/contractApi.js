@@ -1,17 +1,13 @@
 import {
 	request
-} from '../../lib/java110/java110Request.js'
-import
-url
-from '../../constant/url.js'
+} from '../../lib/proprietor/proprietorRequest.js'
+import url from '../../constant/url.js'
 
-import
-mapping
-from '../../constant/MappingConstant.js'
+import mapping from '../../constant/MappingConstant.js'
 
-import {
-	getCurOwner
-} from '../owner/ownerApi.js'
+import { getCurOwner } from '../owner/ownerApi.js'
+import { i18n } from '@/main.js'
+
 /**
  * 查询业主合同
  * 
@@ -34,12 +30,12 @@ export function getContracts() {
 							//将业主信息和房屋信息一起返回
 							res.data['owner'] = _owner;
 							if (res.data.data.length == 0) {
-								reject("业主没有合同信息");
+								reject(i18n.t("业主没有合同信息-Bqk"));
 								return;
 							}
 							resolve(res.data);
 						} else {
-							reject("查询合同失败");
+							reject(i18n.t("查询合同失败-zxT"));
 						}
 					},
 					fail: function(res) {
@@ -69,12 +65,12 @@ export function getCurContract(_param) {
 						if (res.statusCode == 200) {
 							//将业主信息和房屋信息一起返回
 							if (res.data.data.length == 0) {
-								reject("业主没有合同信息");
+								reject(i18n.t("业主没有合同信息-Bqk"));
 								return;
 							}
 							resolve(res.data.data[0]);
 						} else {
-							reject("查询合同失败");
+							reject(i18n.t("查询合同失败-zxT"));
 						}
 					},
 					fail: function(res) {

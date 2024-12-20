@@ -1,16 +1,12 @@
 /**
  * 申请装修信息处理 api 接口类
  * 
- * add by 吴学文 QQ 928255095
  */
 
 
-import {
-	request
-} from '../../lib/java110/java110Request.js'
-import
-url
-from '../../constant/url.js'
+import { request } from '../../lib/proprietor/proprietorRequest.js'
+import url from '../../constant/url.js'
+import { i18n } from '@/main.js'
 
 /**
  * 提交装修申请
@@ -28,6 +24,7 @@ export function saveRoomRenovation(_data) {
 					resolve();
 				} else {
 					uni.showToast({
+            icon: "none",
 						title: data.msg
 					})
 				}
@@ -108,7 +105,7 @@ export function queryRoomRenovationRecord(_data){
 					resolve(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title: i18n.t("服务器异常了-eja"),
 						icon: 'none',
 						duration: 2000
 					})
@@ -116,7 +113,7 @@ export function queryRoomRenovationRecord(_data){
 			},
 			fail: function(res) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none',
 					duration: 2000
 				})
@@ -140,7 +137,7 @@ export function queryRoomRenovationRecordDetail(_data){
 					resolve(res.data.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title: i18n.t("服务器异常了-eja"),
 						icon: 'none',
 						duration: 2000
 					})
@@ -148,7 +145,7 @@ export function queryRoomRenovationRecordDetail(_data){
 			},
 			fail: function(res) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none',
 					duration: 2000
 				})

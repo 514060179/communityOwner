@@ -1,7 +1,7 @@
 import {
 	request,
 	requestNoAuth
-} from '../../lib/java110/java110Request.js'
+} from '../../lib/proprietor/proprietorRequest.js'
 import
 url
 from '../../constant/url.js'
@@ -13,7 +13,7 @@ from '../../constant/MappingConstant.js'
 import {
 	formatDate,
 	dateTimeStringToDateString
-} from '../../lib/java110/utils/DateUtil.js';
+} from '../../lib/proprietor/utils/DateUtil.js';
 
 // #ifdef H5
 
@@ -27,7 +27,7 @@ import {
 } from '../../factory/WexinAppPayFactory.js'
 // #endif
 
-
+import { i18n } from '@/main.js'
 
 /**
  * @param {Object} _objData {
@@ -59,9 +59,9 @@ export function getRoomFees(_objData, _tmpRoom) {
 						_tmpRoom.endTime = dateTimeStringToDateString(_roomFee.endTime);
 						let _now = new Date();
 						if (_roomFee.endTime > _now) {
-							_tmpRoom.feeStateName = '正常'
+							_tmpRoom.feeStateName = i18n.t('正常-bam')
 						} else {
-							_tmpRoom.feeStateName = '欠费'
+							_tmpRoom.feeStateName = i18n.t('欠费-kes')
 						}
 						_tmpRoom.additionalAmount = _roomFee.additionalAmount;
 						_tmpRoom.squarePrice = _roomFee.squarePrice;
@@ -226,7 +226,7 @@ export function toAliPayTempCarFee(_objData) {
  */
 export function payFeeApp(_that, _data) {
 	wx.showLoading({
-		title: '支付中'
+		title: i18n.t('支付中-WHp')
 	});
 	request({
 		url: url.preOrder,
@@ -272,7 +272,7 @@ export function payFeeApp(_that, _data) {
 			if (res.data.code == '100') {
 				let data = res.data; //成功情况下跳转
 				uni.showToast({
-					title: "支付成功",
+					title: i18n.t("支付成功-u1S"),
 					duration: 2000
 				});
 				uni.navigateTo({
@@ -290,7 +290,7 @@ export function payFeeApp(_that, _data) {
 		fail: function(e) {
 			wx.hideLoading();
 			wx.showToast({
-				title: "服务器异常了",
+				title: i18n.t("服务器异常了-eja"),
 				icon: 'none',
 				duration: 2000
 			});
@@ -308,7 +308,8 @@ export function payFeeWechat(_that, _data,_successUrl) {
 		_successUrl = "/pages/successPage/successPage?msg=支付成功&objType=3003";
 	}
 	wx.showLoading({
-		title: '支付中'
+    icon: "none",
+		title: i18n.t('支付中-WHp')
 	});
 	request({
 		url: url.unifiedPayment,
@@ -349,7 +350,7 @@ export function payFeeWechat(_that, _data,_successUrl) {
 			if (res.statusCode == 200 && res.data.code == '100') {
 				let data = res.data; //成功情况下跳转
 				uni.showToast({
-					title: "支付成功",
+					title: i18n.t("支付成功-u1S"),
 					duration: 2000
 				});
 				setTimeout(function() {
@@ -359,7 +360,7 @@ export function payFeeWechat(_that, _data,_successUrl) {
 				return;
 			}
 			wx.showToast({
-				title: "缴费失败"+res.data.msg,
+				title: i18n.t("缴费失败-UVj") + res.data.msg,
 				icon: 'none',
 				duration: 2000
 			});
@@ -367,7 +368,7 @@ export function payFeeWechat(_that, _data,_successUrl) {
 		fail: function(e) {
 			wx.hideLoading();
 			wx.showToast({
-				title: "服务器异常了",
+				title: i18n.t("服务器异常了-eja"),
 				icon: 'none',
 				duration: 2000
 			});
@@ -573,13 +574,12 @@ export function getQrCodeData(_objData) {
  * @param {Object} _data
  * @param {Object} _successUrl
  */
-export function cashierPayFee(_that, _data,_successUrl) {
-	if(!_successUrl ){
-		_successUrl = "/pages/successPage/successPage?msg=支付成功&objType=3003";
-	}
+export function cashierPayFee(_data, _fun) {
 	wx.showLoading({
-		title: '支付中'
+    icon: "none",
+		title: i18n.t('支付中-WHp')
 	});
+  
 	requestNoAuth({
 		url: url.cashier,
 		method: "POST",
@@ -597,55 +597,30 @@ export function cashierPayFee(_that, _data,_successUrl) {
 					'signType': data.signType,
 					'paySign': data.sign,
 					'success': function(res) {
-						uni.navigateTo({
-							url: _successUrl
-						})
+						_fun && _fun(res)
 					},
 					'fail': function(res) {
-						console.log('fail:' + JSON.stringify(res));
-						_that.banButton = false;
+            _fun && _fun(res)
 					}
 				});
 				// #endif
-				// #ifdef H5
-				WexinPayFactory.wexinPay(data, function() {
-					uni.navigateTo({
-						url: _successUrl
-					})
-				});
-				// #endif
+				// 微信H5支付
+				// WexinPayFactory.wexinPay(data, function() {
+				// 	_fun && _fun(res)
+				// });
 
 				return;
 			}
-			if (res.statusCode == 200 && res.data.code == '100') {
-				let data = res.data; //成功情况下跳转
-				uni.showToast({
-					title: "支付成功",
-					duration: 2000
-				});
-				setTimeout(function() {
-					uni.navigateTo({
-						url: _successUrl
-					})
-				}, 2000)
-
-				return;
-			}
-			wx.showToast({
-				title: "缴费失败"+res.data.msg,
-				icon: 'none',
-				duration: 2000
-			});
-			_that.banButton = false;
+			_fun && _fun(res.data)
 		},
 		fail: function(e) {
 			wx.hideLoading();
 			wx.showToast({
-				title: "服务器异常了",
+				title: i18n.t("服务器异常了-eja"),
 				icon: 'none',
 				duration: 2000
 			});
-			_that.banButton = false;
+      _fun && _fun(e)
 		}
 	});
 

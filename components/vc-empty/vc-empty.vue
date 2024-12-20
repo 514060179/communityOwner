@@ -1,5 +1,5 @@
 <template>
-	<view class="y-f" :class="{ 'shopro-empty': isFixed }">
+	<view class="empty-box" :class="{ 'shopro-empty': isFixed }">
 		<image class="empty-img" :src="emptyData.img" mode="aspectFill"></image>
 		<view class="empty-text">{{ emptyData.tip }}</view>
 		<view class="btn-box" v-if="emptyData.path">
@@ -43,13 +43,21 @@ export default {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .empty-img {
-	width: 540rpx;
-	height: 290rpx;
+	width: 400rpx;
+	height: 400rpx;
 }
 .empty-text {
-	font-size: 26rpx;
-	color: #999;
+  text-align: center;
+	font-size: 24rpx;
+	color: #333333;
 }
 .btn-box {
 	margin-top: 100rpx;

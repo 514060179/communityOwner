@@ -1,47 +1,44 @@
 <template>
-<view class="ak_context">
-  <view class="ak_row">
-    <view class="ak_row_black">
+  <view class="ak_context">
+    <view class="ak_row">
+      <view class="ak_row_black"> </view>
+      <view class="ak_row_title">
+        <text>{{ $t('申请门禁钥匙-vz4') }}</text>
+      </view>
+      <view class="ak_row_black_01"></view>
+
+      <view class="bg-white padding">
+        <view class="grid text-center" :class="'col-2'">
+          <view class="padding">
+            <text class="iconfont iconshenqing ak_icon_text">\n</text>
+            <text>1.{{ $t('提交申请钥匙-yTC') }}</text>
+          </view>
+          <view class="padding">
+            <text class="iconfont icondengdai ak_icon_text">\n</text>
+            <text>2.{{ $t('物业人员审核-vRy') }}</text>
+          </view>
+        </view>
+        <view class="grid text-center" :class="'col-1'">
+          <view class="padding">
+            <text class="iconfont iconshenqingtongguo ak_icon_text">\n</text>
+            <text>3.{{ $t('审核通过后生成电子钥匙-Hvi') }}</text>
+          </view>
+        </view>
+      </view>
+      <view class="ak_row_black_02"></view>
+      <view class="ak_row_black_03"></view>
+      <view class="padding flex flex-direction">
+        <button class="cu-btn bg-green lg" @click="applyApplicationKey">{{ $t('申请钥匙-igG') }}</button>
+      </view>
+      <view class="ak_row_black_04"></view>
     </view>
-    <view class="ak_row_title">
-      <text>申请门禁钥匙</text>
-    </view>
-    <view class="ak_row_black_01"></view>
-	
-	
-	<view class="bg-white padding">
-			<view class="grid text-center" :class="'col-2'">
-				<view class="padding">
-				    <text class="iconfont iconshenqing ak_icon_text">\n</text>
-					<text>1.提交申请钥匙</text>
-				</view>
-				<view class="padding">
-					<text class="iconfont icondengdai ak_icon_text">\n</text>
-				    <text>2.物业人员审核</text>
-				</view>
-			</view>
-			<view class="grid text-center" :class="'col-1'">
-				<view class="padding">
-					<text class="iconfont iconshenqingtongguo ak_icon_text">\n</text>
-					<text>3.审核通过后生成电子钥匙</text>
-				</view>
-			</view>
-	</view>
-    <view class="ak_row_black_02"></view>
-     <view class="ak_row_black_03"></view>
-	  <view class="padding flex flex-direction">
-		 <button class="cu-btn bg-green lg" @click="applyApplicationKey">申请钥匙</button>
-	  </view> 
-     <view class="ak_row_black_04"></view>
   </view>
-</view>
 </template>
 
 <script>
-
 export default {
   data() {
-    return {};
+    return {}
   },
 
   components: {},
@@ -51,7 +48,7 @@ export default {
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-	  this.vc.onLoad(options);
+    this.vc.onLoad(options)
   },
 
   /**
@@ -65,11 +62,11 @@ export default {
     applyApplicationKey: function () {
       this.vc.navigateTo({
         url: '/pages/applicationKey/applicationKeyLocation'
-      });
+      })
     }
   }
-};
+}
 </script>
 <style>
-@import "./applicationKey.css";
+@import './applicationKey.css';
 </style>

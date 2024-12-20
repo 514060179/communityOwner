@@ -1,115 +1,187 @@
 <template>
-	<view>
-		<view  class="block__title">门禁同步记录</view>
-		<view v-if="noData == false">
-			<view v-for="(item,index) in machineTranslates" :key="index" class="bg-white margin-bottom margin-right-xs radius margin-left-xs padding">
-				<view class="flex padding-bottom-xs solid-bottom justify-between">
-					<view>同步时间</view>
-					<view class="text-gray">{{item.updateTime}}</view>
-				</view>
-				<view class="flex margin-top justify-between">
-					<view class="text-gray">设备名称</view>
-					<view class="text-gray">{{item.machineName}}</view>
-				</view>
-				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">状态</view>
-					<view class="text-gray">{{item.stateName}}</view>
-				</view>
-				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">说明</view>
-					<view class="text-gray">{{item.remark}}</view>
-				</view>
-			</view>
-		</view>
-		<view v-else>
-			<no-data-page></no-data-page>
-		</view>
-
-	</view>
+  <view class="pages-machine">
+    <view class="machine-container" v-if="machineTranslates.length">
+      <view class="item-card" v-for="(item, index) in machineTranslates" :key="index">
+        <view class="item-header">
+          <text class="item-name">{{ item.name }}</text>
+          <text class="item-status">{{ item.state }}</text>
+        </view>
+        <view class="cell-content">
+          <view class="item-cell">
+            <view>{{ $t('类型-pGB') }}</view>
+            <view class="cell-value">{{ getStatus(item.openTypeCd) }}</view>
+          </view>
+          <view class="item-cell">
+            <view>{{ $t('进出时间-kmp') }}</view>
+            <view class="cell-value">{{ item.createTime }}</view>
+          </view>
+          <view class="item-cell">
+            <view>{{ $t('通行区域-rEO') }}</view>
+            <view class="cell-value">{{ item.machineName }}</view>
+          </view>
+          <view class="item-cell">
+            <view>{{ $t('备注-8l8') }}</view>
+            <view class="cell-value">{{ `${$t('您在-KOg')}[${item.machineName}]上通过[${getStatus(item.openTypeCd)}]方式打开通道` }}</view>
+          </view>
+        </view>
+      </view>
+      <view class="more-text">{{ loadMoreText === 'more' ? $t('加载更多-9ox') : $t('没有更多了-Ffe') }}</view>
+    </view>
+    <view v-else>
+      <no-data-page></no-data-page>
+    </view>
+  </view>
 </template>
 
 <script>
-	import context from '../../lib/java110/Java110Context.js';
-	import {formatDate}  from '../../lib/java110/utils/DateUtil.js'
-	
-	import {getMachineTranslates} from '../../api/machine/machineApi.js'
+  import context from '../../lib/proprietor/proprietorContext.js'
+  // import { formatDate } from '../../lib/proprietor/utils/DateUtil.js'
+  // import { getCurCommunity } from '@/api/community/communityApi.js'
+  import { getOpenList } from '../../api/machine/machineApi.js'
+  import noDataPage from '@/components/no-data-page/no-data-page.vue'
 
-	const constant = context.constant;
-	import noDataPage from '@/components/no-data-page/no-data-page.vue'
+  // const constant = context.constant
 
+  // const util = context.util
+  export default {
+    data() {
+      return {
+        machineTranslates: [],
+        ownerId: '',
+        communityId: '',
+        personId: '',
+        page: 1,
+        // noMore: 加载完成  more: '加载更多'
+        loadMoreText: 'more'
+      }
+    },
+    components: {
+      noDataPage
+    },
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function() {
+      context.getOwner((res) => {
+        this.communityId = res.communityId
+        this.personId = res.memberId
+        this.getList()
+      })
+    },
+    onReachBottom() {
+      if (this.loadMoreText === 'more') this.getList()
+    },
+    onPullDownRefresh() {
+      this.getList(true)
+    },
+    methods: {
+      async getList(isRefresh) {
+        try {
+          
+          if (isRefresh) {
+            this.page = 1
+          }
+          
+          const res = await getOpenList({
+            iotApiCode: 'listAccessControlInoutBmoImpl',
+            page: this.page,
+            row: 10,
+            communityId: this.communityId,
+            personId: this.personId
+          })
+          
+          this.page += 1
+          
+          this.machineTranslates = isRefresh ? res : this.machineTranslates.concat(res)
 
-	const util = context.util;
-	export default {
-		data() {
-			return {
-				machineTranslates: [],
-				ownerId: '',
-				communityId: '',
-				noData: false
-			}
-		},
-		components: {
-			noDataPage
-		},
-
-		/**
-		 * 生命周期函数--监听页面加载
-		 */
-		onLoad: function(options) {
-			context.onLoad(options);
-			let _that = this;
-			context.getOwner(function(_owner) {
-				_that.ownerId = _owner.memberId;
-				_that.communityId = _owner.communityId;
-				_that._loadMachineTranslates();
-			});
-
-		},
-		methods: {
-			_loadMachineTranslates: function() {
-				let _that = this;
-				getMachineTranslates({
-					page: 1,
-					row: 30,
-					typeCd:'8899',
-					objId:this.ownerId,
-					communityId:this.communityId
-				})
-				.then(_data => {
-					_data.forEach(function(_log) {
-						_log.updateTime = _log.updateTime.replace(/\-/g, "/")	
-					});
-					_that.machineTranslates = _data;
-				},err =>{
-					_that.noData = true;
-				});
-			}
-		}
-	}
+          this.loadMoreText = res.length === 10 ? 'more' : 'noMore'
+          
+        } catch (e) {
+          console.log(e, 'e')
+        } finally {
+          if (isRefresh) uni.stopPullDownRefresh()
+        }
+      },
+      getStatus(openTypeCd) {
+        const list = [{
+            openTypeCd: '1000',
+            openTypeName: this.$t('人脸开门-CBe')
+          },
+          {
+            openTypeCd: '2000',
+            openTypeName: this.$t('IC卡-urT')
+          },
+          {
+            openTypeCd: '3000',
+            // 二维码
+            openTypeName: this.$t('machine.openDoorByQrCode')
+          },
+          {
+            openTypeCd: '4000',
+            openTypeName: this.$t('CPU卡-O8U')
+          }
+        ]
+        return list.find(v => v.openTypeCd == openTypeCd)?.openTypeName || '12'
+      }
+    }
+  }
 </script>
 
-<style>
-	.solid-bottom::after {
-		border-bottom: 2upx solid rgba(0, 0, 0, 0.1);
-	}
+<style lang="scss" scoped>
+  .pages-machine {
+    padding: 20rpx;
+    color: #2E3845;
+  }
 
-	.ppf_item {
-		padding: 0rpx 0rpx 0rpx 0rpx;
-	}
+  .machine-container {
 
-	.block__title {
-		margin: 0;
-		font-weight: 400;
-		font-size: 14px;
-		color: rgba(69, 90, 100, .6);
-		padding: 40rpx 30rpx 20rpx;
-	}
+    .item-card {
+      background-color: #fff;
+      border-radius: 20px;
+      margin-bottom: 20rpx;
+    }
 
-	.button_up_blank {
-		height: 40rpx;
-	}
+    .item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40rpx 30rpx;
+      border-bottom: 4rpx solid #f8f9fa;
+      font-size: 36rpx;
+      font-weight: 700;
 
-	.block__bottom {
-		height: 180rpx;
-	}
+      .item-status {
+        color: #c21da0;
+      }
+    }
+
+    .cell-content {
+      padding: 20rpx;
+      font-weight: 500;
+
+      .item-cell {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20rpx;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .cell-value {
+          text-align: end;
+          margin-left: 20rpx;
+          flex: 1;
+        }
+      }
+    }
+  }
+  
+  .more-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30rpx;
+    color: #ccc;
+  }
 </style>

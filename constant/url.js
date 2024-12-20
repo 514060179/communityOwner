@@ -62,7 +62,7 @@ export default {
 	//发送验证码
 	userSendSms: baseUrl + "app/user.userSendSms",
 	ownerSendSms: baseUrl + "app/user.ownerSendSms",
-	userLogout: baseUrl + 'app/user.service.logout', //绑定业主
+	userLogout: baseUrl + 'app/user.service.logout',
 	listStore: baseUrl + 'app/store.listStoresByCommunity', // 查询小区商户
 	//发布需求信息
 	saveJunkRequirement: baseUrl + 'app/junkRequirement.saveJunkRequirement',
@@ -135,7 +135,7 @@ export default {
 	queryQuestionAnswerTitle: baseUrl + "app/question.listQuestionTitle",
 	saveUserQuestionAnswerValue: baseUrl + "app/question.saveOwnerQuestionAnswer",
 	listMachineTranslates: baseUrl + "app/machineTranslate.listMachineTranslates",
-	generatorHcCode: baseUrl + "app/userLogin/generatorHcCode",
+	// generatorHcCode: baseUrl + "app/userLogin/generatorHcCode",
 	queryApplyRoomDiscount: baseUrl + "app/applyRoomDiscount/queryApplyRoomDiscount",
 	querySetting: baseUrl + "app/reportInfoSetting/queryReportInfoSetting",
 	saveReportInfoBackCity: baseUrl + "app/reportInfoBackCity/saveReportInfoBackCity",
@@ -173,12 +173,14 @@ export default {
 	listMarketPicByCommunity: baseUrl + "app/marketPic.listCommunityMarketPic",
 	listCommunityMarketGoods: baseUrl + "app/marketGoods.listCommunityMarketGoods",
 	// 查询场地API app/communitySpace.listCommunitySpace?spaceId=&name=&state=&venueId=102022100702940003&communityId=2022091498680001&page=1&row=10
-	queryChangDi: baseUrl + "app/communitySpace.listCommunitySpace",
+	getSite: baseUrl + "app/communitySpace.listCommunitySpace",
 	// 查询场馆 app/communityVenue.listCommunityVenue?page=1&row=100&communityId=2022091498680001
-	queryChangGuan: baseUrl + "app/communityVenue.listCommunityVenue",
+	getVenue: baseUrl + "app/communityVenue.listCommunityVenue",
 	// 查询已订场地信息
 	querySpacePerson: baseUrl + "app/communitySpace.listCommunitySpacePerson",
 	unifiedPayment: baseUrl + "app/payment.unifiedPayment",
+  // 查询场地文件
+  getSiteFiles: baseUrl + "app/communitySpace.listCommunitySpaceFiles",
 
 	// 修改预约订单
 	saveCommunitySpacePersonTime: baseUrl + "app/communitySpace.saveCommunitySpacePersonTime",
@@ -240,9 +242,28 @@ export default {
 	listInvoiceEvent: baseUrl+"app/invoice.listInvoiceEvent",
 	saveInvoiceApply: baseUrl+"app/invoice.saveInvoiceApply",
 	getNativeQrcodePayment: baseUrl+"app/payment.getNativeQrcodePayment",
+  // 获取商城临时Code
+  generatorHcCode: baseUrl + "app/login.generatorHcCode",
 	
-	
-	
+  // 获取支付状态
+	getPayStatus: baseUrl + "app/payment.checkPayStatus",
+	// 获取门禁记录
+  getOpenApi: baseUrl + "app/iot.getOpenApi",
+
+  // 版本升级接口
+  getAppVersion: baseUrl + "app/app.getAppVersion",
+  // 获取用户二维码
+  getOpenQr: baseUrl + "app/iot.getOpenApi",
+  // 极光注册alias
+  userRegisterAlias: baseUrl + "app/user.ownerUserRegisterAlias",
+  // 极光-删除注册alias
+  userDeleteAlias: baseUrl + "app/user.ownerUserDeleteAlias",
+  // 获取消息类型-列表
+  messageTypeList: baseUrl + "app/notification.listNotificationType",
+  // 获取消息列表-列表
+  notificationList: baseUrl + "app/userNotification.getNotificationList",
+  // 消息设置为已读
+  readNotification: baseUrl + "app/userNotification.readNotification",
 
 	NEED_NOT_LOGIN_PAGE: [
 		'pages/login/login',

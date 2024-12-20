@@ -1,13 +1,13 @@
 import {
 	request,
 	requestNoAuth
-} from '../../lib/java110/java110Request.js'
+} from '../../lib/proprietor/proprietorRequest.js'
 import
 url
 from '../../constant/url.js'
 import {
 	formatDate
-} from '@/lib/java110/utils/DateUtil.js'
+} from '@/lib/proprietor/utils/DateUtil.js'
 /**
  * 查询开票抬头
  * @param {Object} _objData 数据

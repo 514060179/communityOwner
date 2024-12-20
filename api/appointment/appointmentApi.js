@@ -5,10 +5,11 @@
 import {
 	request,
 	requestNoAuth
-} from '../../lib/java110/java110Request.js'
+} from '../../lib/proprietor/proprietorRequest.js'
 import url from '../../constant/url.js'
-import context from '../../lib/java110/Java110Context.js';
+import context from '../../lib/proprietor/proprietorContext.js';
 import mapping from '../../constant/MappingConstant.js';
+import { i18n } from '@/main.js'
 
 /** 获取两个时间之间的 间隔时间
  * @param { Date | number | string } startTime 开始时间 字符串格式(6:00 06:00 18:00, 18:00:00) 必须是24小时格式
@@ -61,10 +62,10 @@ export function getBookingList(_objData) {
 /**
  * 查询 场地 2022/10/09
  */
-export function getChangdi(_objData) {
+export function getSite(_objData) {
 	return new Promise((resolve, reject) => {
 		requestNoAuth({
-			url: url.queryChangDi,
+			url: url.getSite,
 			method: "GET",
 			data: _objData,
 			success: function(res) {
@@ -86,11 +87,11 @@ export function getChangdi(_objData) {
 /**
  * 查询场馆列表 2022/10/09
  **/
-export function getChangGuan(dataObj) {
+export function getVenue(dataObj) {
 	return new Promise(
 		(resolve, reject) => {
 			requestNoAuth({
-				url: url.queryChangGuan,
+				url: url.getVenue,
 				method: "GET",
 				data: dataObj,
 				//动态数据
@@ -103,12 +104,54 @@ export function getChangGuan(dataObj) {
 					}
 				},
 				fail: function(e) {
+          reject(e)
 					wx.showToast({
-						title: "服务器异常了",
+						title: i18n.t("服务器异常了-eja"),
 						icon: 'none',
 						duration: 2000
 					});
 				}
 			});
 		})
+}
+
+// 查询场地文件
+export function getSiteFiles(_objData) {
+	return new Promise((resolve, reject) => {
+		requestNoAuth({
+			url: url.getSiteFiles,
+			method: "GET",
+			data: _objData,
+			success: function(res) {
+				// debugger
+				if (res.statusCode == 200) {
+					let _data = res.data
+					resolve(_data)
+					return
+				}
+				reject()
+			},
+			fail: function(res) {
+				reject(res);
+			}
+		});
+	})
+}
+
+// 场地预约预下单
+export function unifiedPayment(_objData) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: url.unifiedPayment,
+      header: context.getHeaders(),
+      method: 'POST',
+      data: _objData,
+      success: (res) => {
+        resolve(res)
+      },
+      fail: (e) => {
+        reject(e)
+      }
+    })
+  })
 }

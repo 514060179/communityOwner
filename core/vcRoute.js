@@ -8,12 +8,12 @@ import url from '../constant/url.js'
 
 import {
 	debug
-} from '../lib/java110/utils/LogUtil.js'
+} from '../lib/proprietor/utils/LogUtil.js'
 
 import {
 	hasLogin,
 	checkSession
-} from '../lib/java110/page/Page.js'
+} from '../lib/proprietor/page/Page.js'
 
 
 import mapping from '../constant/MappingConstant.js'
@@ -21,7 +21,7 @@ import mapping from '../constant/MappingConstant.js'
 import {
 	getStorageSync,
 	getWAppId
-} from '../lib/java110/utils/StorageUtil.js';
+} from '../lib/proprietor/utils/StorageUtil.js';
 
 
 import {

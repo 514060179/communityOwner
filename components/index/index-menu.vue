@@ -1,362 +1,266 @@
 <template>
-	<view>
-		<view class="home_list">
-			<view class="home_item" v-for="(item,index) in home_list" :key="index" @click="to(item)">
-				<image :src="item.src"></image>
-				<view class="text">{{item.name}}</view>
-			</view>
-		</view>
+  <view>
+    <view class="serve_box">
+      <view class="serve_title">
+        {{ $t('功能服务-GP8') }}<text class="more" @click="more()">{{ $t('查看全部-tQE') }}</text>
+      </view>
+      <view class="serve_list">
+        <view class="serve_item" v-for="(item, index) in list" :key="index" @click="to(item)">
+          <image :src="item.src" v-if="item.src" />
+          <view class="text">{{ $t(item.name) }}</view>
+        </view>
+      </view>
+    </view>
 
-		<view class="serve_box">
-			<view class="serve_title">功能服务<text class="more" @click="more()">更多</text></view>
-			<view class="serve_list">
-				<view class="serve_item" v-for="(item,index) in serve_list" :key="index" @click="to(item)">
-					<image :src="item.src"></image>
-					<view class="text">{{item.name}}</view>
-				</view>
-			</view>
-		</view>
+    <view class="connect-box">
+      <view class="connect-left">
+        <view class="title">{{ $t('联系物业-mCn') }}</view>
+        <view class="hint">{{ $t('即刻搞定-Utt') }}</view>
+      </view>
+      <view class="connect-right" @tap="callPropertyTel">
+        <image src="@/static/images/icons/call.png" />
+        <text>{{ $t('一键拨打-Y1h') }}</text>
+      </view>
+    </view>
 
-		<view class="new_box">
-			<view class="margin-bottom-xs">
-				<uni-notice-bar showIcon="true" scrollable="true" single="true" speed="30" text="欢迎访问智慧物业">
-				</uni-notice-bar>
-			</view>
-			<view class="new_list">
-				<view class="new_item" v-for="(item,index) in new_list" :key="index" @click="to(item)">
-					<view class="new_wrap">
-						<view class="new_font">
-							<view class="name">{{item.name}}</view>
-							<view class="text">{{item.desc}}</view>
-						</view>
-						<image :src="item.src"></image>
-					</view>
-				</view>
-			</view>
-		</view>
-
-		<view class="cu-modal" :class="callPropertyModal==true?'show':''">
-			<view class="cu-dialog">
-				<view class="cu-bar bg-white justify-end">
-					<view class="content">拨打电话
-						<text v-if="property.communityQrCode">/ 加微信好友</text>
-					</view>
-					<view class="action" @tap="_cancleCall()">
-						<text class="cuIcon-close text-red"></text>
-					</view>
-				</view>
-				<view class="padding-xl">
-					<view v-if="property.communityQrCode">
-						<image class="call-qrcode" :src="property.communityQrCode"></image>
-					</view>
-					<view>您确认拨打,{{property.communityName}}物业客服电话<br />{{property.sCommunityTel}}</view>
-				</view>
-				<view class="cu-bar bg-white justify-end">
-					<view class="action margin-0 flex-sub  solid-left" @tap="_cancleCall()">取消</view>
-					<view class="action margin-0 flex-sub text-green solid-left" @tap="_doCall()">拨号</view>
-				</view>
-			</view>
-		</view>
-		<auth-owner-dialog ref="authOwnerDialogRef"></auth-owner-dialog>
-	</view>
+    <view class="cu-modal" :class="callPropertyModal == true ? 'show' : ''">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">
+            {{ $t('拨打电话-YnL') }}
+            <text v-if="property.communityQrCode">/ {{ $t('加微信好友-sFb') }}</text>
+          </view>
+          <view class="action" @tap="_cancleCall()">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          <view v-if="property.communityQrCode">
+            <image class="call-qrcode" :src="property.communityQrCode"></image>
+          </view>
+          <view>{{ $t('您确认拨打-yat') }},{{ property.communityName }}{{ $t('物业客服电话-NKY') }}<br />{{ property.sCommunityTel }}</view>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+          <view class="action margin-0 flex-sub solid-left" @tap="_cancleCall()">{{ $t('取消-KvD') }}</view>
+          <view class="action margin-0 flex-sub text-green solid-left" @tap="_doCall()">{{ $t('拨号-1vJ') }}</view>
+        </view>
+      </view>
+    </view>
+    <auth-owner-dialog ref="authOwnerDialogRef"></auth-owner-dialog>
+  </view>
 </template>
 
 <script>
-	import {
-		hasAuthOwner
-	} from '../../api/owner/ownerApi.js';
-	import {
-		hasLogin
-	} from '../../lib/java110/page/Page.js';
+  import { hasAuthOwner } from '../../api/owner/ownerApi.js'
+  import { hasLogin } from '../../lib/proprietor/page/Page.js'
 
-	import {
-		getProperty
-	} from '../../api/property/propertyApi.js';
+  import authOwnerDialog from '@/components/owner/auth-owner-dialog.vue'
 
-	import authOwnerDialog from '@/components/owner/auth-owner-dialog.vue'
+  import { getCommunityName, getCommunityTel } from '../../api/community/communityApi.js'
 
+  export default {
+    name: 'IndexMenu',
+    data() {
+      return {
+        callPropertyModal: false,
+        property: {}
+      }
+    },
+    components: {
+      authOwnerDialog
+    },
+    props: {
+      list: {
+        type: Array,
+        default: () => []
+      }
+    },
+    methods: {
+      to: function(v) {
+        // 无需鉴权
+        if (!v.ownerAuth) {
+          if (v.tab == 'tab') {
+            uni.switchTab({
+              url: v.href
+            })
+          } else {
+            this.vc.navigateTo({
+              url: v.href
+            })
+          }
+        } else {
+          hasAuthOwner(this).then(
+            _owner => {
+              if (v.type === 'tab') {
+                uni.switchTab({
+                  url: v.href
+                })
+              } else {
+                this.vc.navigateTo({
+                  url: v.href
+                })
+              }
+            }
+          )
+        }
+      },
+      callPropertyTel: function() {
+        //拨打电话
+        const _that = this
+        if (!hasLogin()) {
+          this.vc.navigateTo({
+            url: '../login/showlogin'
+          })
+          return
+        }
 
-	import {
-		getCommunityName,
-		getCommunityTel
-	} from '../../api/community/communityApi.js';
-
-	export default {
-		name: "indexMenu",
-		data() {
-			return {
-				home_list: [],
-				serve_list: [],
-				callPropertyModal: false,
-				property: {},
-				new_list: [{
-						src: this.imgUrl + '/h5/images/serve/new1.png',
-						name: '报事报修',
-						desc: '一键维修',
-						href: '/pages/repair/repair',
-						ownerAuth:true
-					},
-					{
-						src: this.imgUrl + '/h5/images/serve/new2.png',
-						name: '联系物业',
-						desc: '一键搞定',
-						href: '_callPropertyTel',
-						ownerAuth:false
-					},
-				],
-			};
-		},
-		created() {
-			this._loadFunc();
-		},
-		components: {
-			authOwnerDialog
-		},
-		methods: {
-			_loadFunc: function() {
-				this.home_list = [{
-							name: '社区公告',
-							src: this.imgUrl + '/h5/images/serve/7.png',
-							href: '/pages/notice/index',
-							ownerAuth: false
-						},
-						{
-							name: '家庭成员',
-							src: this.imgUrl + '/h5/images/serve/2.png',
-							href: '/pages/family/familyList',
-							ownerAuth: true
-						},
-						{
-							name: '访客通行',
-							src: this.imgUrl + '/h5/images/serve/3.png',
-							href: '/pages/visit/visitList',
-							ownerAuth: true
-						},
-					],
-					this.serve_list = [{
-							name: '生活缴费',
-							src: this.imgUrl + '/h5/images/serve/1.png',
-							href: '/pages/fee/oweFee',
-							ownerAuth: true
-						},
-						{
-							name: '房屋费',
-							src: this.imgUrl + '/h5/images/serve/5.png',
-							href: '/pages/fee/roomFeeListNew',
-							ownerAuth: true
-						},
-						{
-							name: '停车费',
-							src: this.imgUrl + '/h5/images/serve/9.png',
-							href: '/pages/fee/payParkingFeeList',
-							ownerAuth: true
-						},
-						{
-							name: '一键开门',
-							src: this.imgUrl + '/h5/images/serve/8.png',
-							href: '/pages/machine/openDoor',
-							ownerAuth: true
-						},
-						// {
-						// 	name: '人脸识别',
-						// 	src: this.imgUrl + '/h5/images/serve/8.png',
-						// 	href: '/pages/machine/faceRecognition'
-						// },
-					]
-			},
-			to: function(v) {
-				if (!v.ownerAuth) {
-					if (v.href == '_callPropertyTel') {
-						this.callPropertyTel();
-					} else {
-						this.vc.navigateTo({
-							url: v.href
-						});
-					}
-					return;
-				}
-				hasAuthOwner(this).then(_owner => {
-					if (v.href == '_callPropertyTel') {
-						this.callPropertyTel();
-					} else {
-						this.vc.navigateTo({
-							url: v.href
-						});
-					}
-				}, _err => {
-
-				})
-
-			},
-			callPropertyTel: function() { //拨打电话
-				let _that = this;
-				if (!hasLogin()) {
-					this.vc.navigateTo({
-						url: '../login/showlogin'
-					});
-					return;
-				}
-
-				this.property.sCommunityTel = getCommunityTel();
-				this.property.communityName = getCommunityName();
-				_that.callPropertyModal = true;
-
-			},
-			_doCall: function() {
-
-				let _that = this;
-				uni.makePhoneCall({
-					// 手机号
-					phoneNumber: _that.property.sCommunityTel,
-					// 成功回调
-					success: (res) => {
-						console.log('调用成功!')
-					},
-					// 失败回调
-					fail: (res) => {
-						console.log('调用失败!')
-					}
-				});
-			},
-			_cancleCall: function() {
-				this.callPropertyModal = false;
-			},
-			more: function() {
-				uni.switchTab({
-					url: '/pages/homemaking/homemaking'
-				})
-			}
-		}
-	}
+        this.property.sCommunityTel = getCommunityTel()
+        this.property.communityName = getCommunityName()
+        _that.callPropertyModal = true
+      },
+      _doCall: function() {
+        const _that = this
+        uni.makePhoneCall({
+          // 手机号
+          phoneNumber: _that.property.sCommunityTel,
+          // 成功回调
+          success: res => {
+            this.callPropertyModal = false
+            console.log('调用成功!')
+          },
+          // 失败回调
+          fail: res => {
+            console.log('调用失败!')
+          }
+        })
+      },
+      _cancleCall: function() {
+        this.callPropertyModal = false
+      },
+      more: function() {
+        uni.navigateTo({
+          url: '/pages/homemaking/homemaking'
+        })
+      }
+    }
+  }
 </script>
 
-<style lang="less">
-	.home_list {
-		display: flex;
-		margin-bottom: 20upx;
+<style lang="scss" scoped>
+  .serve_box {
+    padding: 20rpx 30rpx;
+    background: #fff;
+    margin-bottom: 20rpx;
+    border-radius: 20rpx;
+    box-shadow: 0 8rpx 20rpx 0 rgba(0, 0, 0, 0.1);
 
-		.home_item {
-			padding: 20upx;
-			width: calc((100% - 40upx) / 3);
-			margin-right: 20upx;
-			background: #fff;
-			text-align: center;
-			display: flex;
-			align-items: center;
-			border-radius: 5upx;
-			font-size: 28upx;
+    .serve_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 30rpx;
+      font-weight: 500;
+      color: #333333;
 
-			image {
-				height: 40upx;
-				width: 40upx;
-				margin-right: 5upx;
-			}
-		}
+      .more {
+        color: #C21DA0;
+        font-size: 24rpx;
+        font-weight: normal;
+      }
+    }
 
-		.home_item:last-child {
-			margin-right: 0;
-		}
-	}
+    .serve_list {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
-	.serve_box {
-		padding: 0 20upx;
-		background: #fff;
-		margin-bottom: 20upx;
+    .serve_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24rpx 0;
+      width: 25%;
+      text-align: center;
+      font-size: 28rpx;
 
-		.serve_title {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 20upx 0;
-			font-size: 30upx;
-			font-weight: 600;
+      image {
+        height: 80rpx;
+        width: 80rpx;
+      }
 
-			.more {
-				font-size: 24upx;
-				font-weight: 400;
-				color: #999;
-			}
-		}
+      .text {
+        margin-top: 8rpx;
+        white-space: nowrap;
+        font-size: 24rpx;
+        color: #2E3845;
+        font-weight: 500;
+      }
+    }
 
-		.serve_list {
-			border-radius: 5px;
-		}
+    .home_item:last-child {
+      margin-right: 0;
+    }
+  }
 
-		.serve_item {
-			display: inline-block;
-			padding: 20upx;
-			width: 25%;
-			text-align: center;
-			font-size: 28upx;
+  .connect-box {
+    margin-top: 30rpx;
+    width: 100%;
+    height: 120rpx;
+    border-radius: 20rpx;
+    padding: 20rpx 30rpx;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8rpx 20rpx 0 rgba(0, 0, 0, 0.1);
 
-			image {
-				height: 64upx;
-				width: 64upx;
-			}
+    .connect-left {
+      font-family: Source Han Sans;
 
-			.text {
-				white-space: nowrap;
-				font-size: 20upx;
-				font-weight: 400;
-			}
-		}
+      .title {
+        font-size: 30rpx;
+        font-weight: 500;
+        color: #333333;
+      }
 
-		.home_item:last-child {
-			margin-right: 0;
-		}
+      .hint {
+        margin-top: 5rpx;
+        font-size: 24rpx;
+        color: #999999;
+      }
 
-	}
+    }
 
-	.new_box {
-		background: #fff;
-		padding: 20upx;
-		margin-bottom: 20upx;
+    .connect-right {
+      width: 265rpx;
+      height: 80rpx;
+      display: flex;
+      align-items: center;
+      padding: 0 10rpx;
+      color: #fff;
+      font-size: 24rpx;
+      background: rgba(194, 29, 160, 0.5);
+      border-radius: 80rpx;
 
-		.new_wrap {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+      image {
+        width: 80rpx;
+        height: 80rpx;
+      }
 
-		.new_item {
-			position: relative;
-			display: inline-block;
-			padding: 20upx;
-			margin-right: 20upx;
-			width: calc((100% - 40upx) / 2);
-			background: #f5f5f5;
-			border-radius: 5upx;
+      text {
+        margin-left: 27rpx;
+      }
 
-			.new_font {
-				z-index: 2;
-			}
+      &:active {
+        opacity: 0.8;
+      }
+    }
+  }
 
-			.name {
-				font-size: 28upx;
-				font-weight: 600;
-				color: #333;
-				text-align: left;
-			}
 
-			.text {
-				font-size: 24upx;
-				font-weight: 400;
-				color: #999;
-			}
-
-			image {
-				width: 160upx;
-				height: 120upx;
-			}
-		}
-
-		.new_item:last-child {
-			margin-right: 0;
-		}
-	}
-
-	.call-qrcode {
-		width: 480upx;
-		height: 480upx;
-	}
+  .call-qrcode {
+    width: 480rpx;
+    height: 480rpx;
+  }
 </style>

@@ -1,9 +1,8 @@
 import {
 	requestNoAuth,request
-} from '../../lib/java110/java110Request.js';
-import 
-	url
- from '../../constant/url.js';
+} from '../../lib/proprietor/proprietorRequest.js';
+import url from '../../constant/url.js';
+import { i18n } from '@/main.js'
  
  
  export function getItemReleaseType(dataObj) {
@@ -20,7 +19,7 @@ import
  						resolve(_data);
  						return ;
  					}
- 					reject('未包含数据');
+ 					reject(i18n.t('未包含数据-4gm'));
  				},
  				fail: function(e) {
  					reject(e);
@@ -43,7 +42,7 @@ import
  						resolve(_data);
  						return ;
  					}
- 					reject('未包含数据');
+ 					reject(i18n.t('未包含数据-4gm'));
  				},
  				fail: function(e) {
  					reject(e);
@@ -89,7 +88,7 @@ export function saveItemRelease(_data) {
  						resolve(_data);
  						return ;
  					}
- 					reject('未包含数据');
+ 					reject(i18n.t('未包含数据-4gm'));
  				},
  				fail: function(e) {
  					reject(e);
@@ -112,7 +111,7 @@ export function saveItemRelease(_data) {
  						resolve(_data);
  						return ;
  					}
- 					reject('未包含数据');
+ 					reject(i18n.t('未包含数据-4gm'));
  				},
  				fail: function(e) {
  					reject(e);
@@ -135,7 +134,7 @@ export function saveItemRelease(_data) {
  						resolve(_data);
  						return ;
  					}
- 					reject('未包含数据');
+ 					reject(i18n.t('未包含数据-4gm'));
  				},
  				fail: function(e) {
  					reject(e);

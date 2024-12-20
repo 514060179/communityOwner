@@ -1,34 +1,34 @@
 <template>
 	<view>
-		<view class="block__title">房屋信息</view>
+		<view class="block__title">{{ $t('房屋信息-lT7') }}</view>
 		<view class="cu-form-group">
-			<view class="title">房屋ID</view>
-			{{roomDetail.roomId}}
+			<view class="title">{{ $t('房屋ID-7nh') }}</view>
+			{{ roomDetail.roomId }}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">楼栋</view>
-			{{roomDetail.floorNum}}号楼
+			<view class="title">{{ $t('楼栋-tUB') }}</view>
+			{{ roomDetail.floorNum }}{{ $t('号楼-G4C') }}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">单元</view>
-			{{roomDetail.unitNum}}单元
+			<view class="title">{{ $t('单元-7xd') }}</view>
+			{{ roomDetail.unitNum }}{{ $t('单元-7xd') }}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">房屋编号</view>
-			{{roomDetail.roomNum}}室
+			<view class="title">{{ $t('房屋编号-ubF') }}</view>
+			{{ roomDetail.roomNum }}{{ $t('室-AtK') }}
 		</view>
 
 		<view class="cu-form-group">
-			<view class="title">楼层</view>
-			{{roomDetail.layer+'层'}}
+			<view class="title">{{ $t('楼层-qGE') }}</view>
+			{{ roomDetail.layer }} {{ $t('层-gJR') }}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">户型</view>
-			{{roomDetail.apartment}}
+			<view class="title">{{ $t('户型-taM') }}</view>
+			{{ roomDetail.apartment }}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">建筑面积</view>
-			{{roomDetail.builtUpArea+'平方米'}}
+			<view class="title">{{ $t('建筑面积-7e6') }}</view>
+			{{ roomDetail.builtUpArea }}{{ $t('尺-ZVV') }}
 		</view>
 
 		<view class="button_up_blank"></view>
@@ -38,7 +38,7 @@
 
 <script>
 	// pages/my/myHouseDetail.js
-	import context from '../../lib/java110/Java110Context.js';
+	import context from '../../lib/proprietor/proprietorContext.js';
 	const factory = context.factory;
 
 	export default {
@@ -61,7 +61,7 @@
 		 * 生命周期函数--监听页面加载
 		 */
 		onLoad: function(options) {
-			let _that = this;
+			const _that = this;
 			context.onLoad(options);
 			_that.roomDetail = JSON.parse(options.room);
 
@@ -109,7 +109,7 @@
 		onShareAppMessage: function() {},
 		methods: {
 			loadOwenrInfo: function() {
-				let _that = this;
+				const _that = this;
 
 				context.getOwner(function(_ownerInfo) {
 					console.log(_ownerInfo);

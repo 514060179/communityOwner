@@ -24,13 +24,13 @@
 	.pages_header_top {
 		width: 33.3%;
 		height: 60rpx;
-		border-left: 5px solid #00AA00;
-		border-right: 5px solid #00AA00;
+		border-left: 5px solid #c21da0;
+		border-right: 5px solid #c21da0;
 	}
 	
 	.pages_header_btm {
 		width: 70%;
-		background: #00AA00;
+		background: #c21da0;
 		height: 120rpx;
 		line-height: 120rpx;
 		text-align: center;
@@ -53,7 +53,7 @@
 	
 	.plate-input-flag {
 		margin: 30rpx 10rpx 30rpx 0;
-		color: #00AA00;
+		color: #c21da0;
 		float: right;
 	}
 	
@@ -94,7 +94,7 @@
 	}
 	
 	.green-border{
-		border: 2rpx solid #39b54a;
+		border: 2rpx solid #c21da0;
 	}
 	
 	.plate-num-text {

@@ -1,24 +1,16 @@
 /**
  * 房屋信息处理 api 接口类
  * 
- * add by 吴学文 QQ 928255095
  */
 
 
-import {
-	request
-} from '../../lib/java110/java110Request.js'
-import
-url
-from '../../constant/url.js'
+import { request } from '../../lib/proprietor/proprietorRequest.js'
+import url from '../../constant/url.js'
 
-import
-mapping
-from '../../constant/MappingConstant.js'
+import mapping from '../../constant/MappingConstant.js'
 
-import {
-	getCurOwner
-} from '../owner/ownerApi.js'
+import { getCurOwner } from '../owner/ownerApi.js'
+import { i18n } from '@/main.js'
 
 /**
  * 查询业主房屋
@@ -29,7 +21,7 @@ export function getRooms() {
 		getCurOwner()
 			.then(function(_owner) {
 				if(!_owner.ownerId){
-					reject('未包含业主信息');
+					reject(i18n.t('未包含业主信息-Nlq'));
 				}
 				request({
 					url: url.queryRoomsByOwner,
@@ -43,12 +35,12 @@ export function getRooms() {
 							//将业主信息和房屋信息一起返回
 							res.data['owner'] = _owner;
 							if (res.data.rooms.length == 0) {
-								reject("业主没有房屋信息");
+								reject(i18n.t("业主没有房屋信息-OfK"));
 								return;
 							}
 							resolve(res.data);
 						} else {
-							reject("查询房屋失败");
+							reject(i18n.t("查询房屋失败-lnf"));
 						}
 					},
 					fail: function(res) {
@@ -106,23 +98,23 @@ export function hireRoom(obj) {
 	return new Promise((resolve, reject) => {
 		let msg = "";
 		if (obj.rentingName == "") {
-			msg = "出租标题不能为空";
+			msg = i18n.t("出租标题不能为空-xHO");
 		} else if (obj.roomId == "") {
-			msg = "请选择房屋";
+			msg = i18n.t("请选择房屋-KI3");
 		} else if (obj.communityId == "") {
-			msg = "未找到小区信息";
+			msg = i18n.t("未找到小区信息-xso");
 		} else if (obj.price == "") {
-			msg = "请填写租金(元)";
+			msg = i18n.t("请填写租金(元)-3Cs");
 		} else if (obj.paymentType == "") {
-			msg = "请选择付费类型";
+			msg = i18n.t("请选择付费类型-dHi");
 		} else if (obj.rentingConfigId == "") {
-			msg = "请选择出租方式";
+			msg = i18n.t("请选择出租方式-CBQ");
 		} else if (obj.rentingDesc == '') {
-			msg = "请填写出租说明";
+			msg = i18n.t("请填写出租说明-SaQ");
 		} else if (obj.photos.length < 1) {
-			msg = "请选择图片";
+			msg = i18n.t("请选择图片-pAi");
 		} else if (obj.checkIn == '') {
-			msg = "请选择入住日期";
+			msg = i18n.t("请选择入住日期-Aq8");
 		}
 
 		if (msg != "") {
@@ -141,7 +133,7 @@ export function hireRoom(obj) {
 					reject(_json.msg);
 				},
 				fail: function(e) {
-					reject('服务异常');
+					reject(i18n.t('服务异常-PzU'));
 				}
 			});
 		}
@@ -183,15 +175,15 @@ export function appointmentRoom(obj) {
 	return new Promise((resolve, reject) => {
 		let msg = "";
 		if (obj.tenantName == "") {
-			msg = "名称不能为空";
+			msg = i18n.t("名称不能为空-Zjr");
 		} else if (obj.tenantSex == "") {
-			msg = "性别不能空";
+			msg = i18n.t("性别不能空-bQx");
 		} else if (obj.tenantTel == "") {
-			msg = "手机号不能为空";
+			msg = i18n.t("手机号不能为空-lEt");
 		} else if (obj.appointmentTime == "") {
-			msg = "请填写预约时间";
+			msg = i18n.t("请填写预约时间-TFi");
 		} else if (obj.appointmentRoomId == "") {
-			msg = "预约房屋为空";
+			msg = i18n.t("预约房屋为空-yB3");
 		}
 
 		if (msg != "") {
@@ -210,7 +202,7 @@ export function appointmentRoom(obj) {
 					reject(_json.msg);
 				},
 				fail: function(e) {
-					reject('服务异常');
+					reject(i18n.t('服务异常-PzU'));
 				}
 			});
 		}

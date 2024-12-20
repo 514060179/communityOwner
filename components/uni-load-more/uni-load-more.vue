@@ -148,7 +148,7 @@
 	}
 
 	.uni-load-more__img--nvue {
-		color: #666666;
+		color: #999999;
 	}
 
 	.uni-load-more__img--android,

@@ -34,9 +34,10 @@ class MappingConstant {
   
   static HC_MALL_CUR_URL = "HC_MALL_CUR_URL";
   
-  static CURRENT_MALL_COMMUNITY_INFO = "CURRENT_MALL_COMMUNITY_INFO"
- 
-
+  static CURRENT_MALL_COMMUNITY_INFO = "CURRENT_MALL_COMMUNITY_INFO";
+  
+  // 不清除的Storage列表
+  static saveStorageList = ['agree', 'userHeaderImg', 'protocolChecked', 'userLoginPhone', 'evn', 'serveList'];
 }
 
 /**

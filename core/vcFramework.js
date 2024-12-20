@@ -16,22 +16,22 @@
  */
 
 // 存储相关
-import {getStorageSync,setStorageSync} from '../lib/java110/utils/StorageUtil.js'
+import {getStorageSync,setStorageSync} from '../lib/proprietor/utils/StorageUtil.js'
 // 日志相关
-import {debug,info,error,warn} from '../lib/java110/utils/LogUtil.js'
+import {debug,info,error,warn} from '../lib/proprietor/utils/LogUtil.js'
 // 小区相关
 import {getCurCommunity,recoveryCommunityInfo} from '../api/community/communityApi.js'
 
 // 页面初始化相关
-import {onLoad} from '../lib/java110/page/Page.js'
+import {onLoad} from '../lib/proprietor/page/Page.js'
 
-import {getWAppId} from '../lib/java110/utils/StorageUtil.js'
+import {getWAppId} from '../lib/proprietor/utils/StorageUtil.js'
 
 import {navigateTo,navigateBack,navigateToMall} from './vcRoute.js'
 
-import {isEmpty} from '../lib/java110/utils/StringUtil.js'
+import {isEmpty} from '../lib/proprietor/utils/StringUtil.js'
 
-import {hasLogin} from '../lib/java110/page/Page.js'
+import {hasLogin} from '../lib/proprietor/page/Page.js'
 
 
 

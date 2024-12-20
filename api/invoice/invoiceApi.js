@@ -1,10 +1,9 @@
 import {
 	request,
 	requestNoAuth
-} from '../../lib/java110/java110Request.js';
-import
-url
-from '../../constant/url.js';
+} from '../../lib/proprietor/proprietorRequest.js';
+import url from '../../constant/url.js';
+import { i18n } from '@/main.js'
 
 /**
  * 查询开票抬头
@@ -43,7 +42,7 @@ export function saveOwnerInvoice(_data) {
 
 			},
 			fail: function(e) {
-				reject("服务器异常了");
+				reject(i18n.t("服务器异常了-eja"));
 			}
 		});
 	})
@@ -60,7 +59,7 @@ export function updateOwnerInvoice(_data) {
 				resolve(res.data);
 			},
 			fail: function(e) {
-				reject("服务器异常了");
+				reject(i18n.t("服务器异常了-eja"));
 			}
 		});
 	})
@@ -103,7 +102,7 @@ export function deleteInvoiceApply(_data) {
 				resolve(res.data);
 			},
 			fail: function(e) {
-				reject("服务器异常了");
+				reject(i18n.t("服务器异常了-eja"));
 			}
 		});
 	})
@@ -142,7 +141,7 @@ export function saveInvoiceApply(_data) {
 				resolve(res.data);
 			},
 			fail: function(e) {
-				reject("服务器异常了");
+				reject(i18n.t("服务器异常了-eja"));
 			}
 		});
 	})

@@ -88,7 +88,7 @@ const queryFeeDetail = baseUrl + "app/fee.queryFeeDetail";
 //发送验证码
 const userSendSms = baseUrl + "app/user.userSendSms";
 
-const userLogout = baseUrl + 'app/user.service.logout'; //绑定业主
+const userLogout = baseUrl + 'app/user.service.logout';
 
 const listStore = baseUrl + 'app/store.listStoresByCommunity'; // 查询小区商户
 

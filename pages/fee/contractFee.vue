@@ -1,102 +1,110 @@
 <template>
 	<view>
 		<scroll-view scroll-y>
-			<view class="block__title">合同信息</view>
+			<view class="block__title">{{ $t('合同信息-FxE') }}</view>
 			<view class="cu-list menu">
 				<view class="cu-item">
 					<view class="content">
-						<text class="text-grey">合同名称</text>
+						<text class="text-grey">{{ $t('合同名称-Uni') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{contractName}}</text>
+						<text class="text-grey text-sm">{{ contractName }}</text>
 					</view>
 				</view>
 				<view class="cu-item">
 					<view class="content">
-						<text class="text-grey">合同编号</text>
+						<text class="text-grey">{{ $t('合同编号-9eT') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{contractCode}}</text>
+						<text class="text-grey text-sm">{{ contractCode }}</text>
 					</view>
 				</view>
 				<view class="cu-item">
 					<view class="content">
-						<text class="text-grey">开始时间</text>
+						<text class="text-grey">{{ $t('开始时间-Uv9') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{contractStartTime}}</text>
+						<text class="text-grey text-sm">{{ contractStartTime }}</text>
 					</view>
 				</view>
 				<view class="cu-item">
 					<view class="content">
-						<text class="text-grey">结束时间</text>
+						<text class="text-grey">{{ $t('结束时间-3Q1') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{contractEndTime}}</text>
+						<text class="text-grey text-sm">{{ contractEndTime }}</text>
 					</view>
 				</view>
 			</view>
-			<view class="block__title">费用信息</view>
+			<view class="block__title">{{ $t('费用信息-3Hv') }}</view>
 			<view class="cu-list menu fee-last">
 				<view class="cu-item">
 					<view class="content">
-						<text class="text-grey">费用编号</text>
+						<text class="text-grey">{{ $t('费用编号-y7z') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{feeId }}</text>
+						<text class="text-grey text-sm">{{ feeId }}</text>
 					</view>
 				</view>
-				<view class="cu-item"  v-if="feeFlag == '1003006'">
+				<view class="cu-item" v-if="feeFlag == '1003006'">
 					<view class="content">
-						<text class="text-grey">金额</text>
+						<text class="text-grey">{{ $t('金额-LrA') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{amount + '元/月' }}</text>
+						<text class="text-grey text-sm">{{ amount }}MOP/{{ $t('月-jmQ') }}</text>
 					</view>
 				</view>
-				<view class="cu-item"  v-else>
+				<view class="cu-item" v-else>
 					<view class="content">
-						<text class="text-grey">金额</text>
+						<text class="text-grey">{{ $t('金额-LrA') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{amount + '元' }}</text>
+						<text class="text-grey text-sm">MOP{{ amount }}</text>
 					</view>
 				</view>
 				<view class="cu-item arrow" v-if="feeFlag == '1003006'">
 					<view class="content">
-						<text class="text-grey">周期</text>
+						<text class="text-grey">{{ $t('周期-FZx') }}</text>
 					</view>
 					<view class="action">
 						<picker bindchange="PickerChange" :value="index" :range="feeMonthList" @change="dateChange">
 							<view class="picker">
-								{{feeMonthName}}
+								{{ feeMonthName }}
 							</view>
 						</picker>
 					</view>
 				</view>
 				<view class="cu-item" v-if="feeFlag != '2006012'">
 					<view class="content">
-						<text class="text-grey">到期时间</text>
+						<text class="text-grey">{{ $t('到期时间-N71') }}</text>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{endTime }}</text>
+						<text class="text-grey text-sm">{{ endTime }}</text>
 					</view>
 				</view>
 				<gift-coupon ref="giftCoupon" ></gift-coupon>
-				<vcDiscount ref="vcDiscountRef" @computeFeeDiscount="computeFeeDiscount" payerObjType="3333" :payerObjId="contractId" :endTime="formatEndTime" :feeId="feeId" :cycles="feeMonth" :communityId="communityId"></vcDiscount>
+				<vcDiscount
+					ref="vcDiscountRef"
+					@computeFeeDiscount="computeFeeDiscount"
+					payerObjType="3333"
+					:payerObjId="contractId"
+					:endTime="formatEndTime"
+					:feeId="feeId"
+					:cycles="feeMonth"
+					:communityId="communityId" />
 			</view>
 			
 		</scroll-view>
 		<view class=" bg-white  border flex justify-end" style="position: fixed;width: 100%;bottom: 0;">
 			<view class="action text-orange margin-right line-height">
-				合计：{{receivableAmount}}元
+				{{ $t('合计-87u') }}：MOP {{ receivableAmount }}
 			</view>
 			<view class="btn-group">
 				<!-- #ifdef H5 || MP-WEIXIN -->
-				<button class="cu-btn bg-red shadow-blur lgplus sharp" @click="onPayFee()">提交订单</button>
+				<button class="cu-btn bg-red shadow-blur lgplus sharp" @click="onPayFee()">{{ $t('提交订单-sDX') }}</button>
 				<!-- #endif -->
 				<!-- #ifdef APP-PLUS -->
-				<button class="cu-btn bg-red shadow-blur lgplus sharp" @click="_payWxApp()">提交订单</button>
+				<button class="cu-btn bg-red shadow-blur lgplus sharp" @click="_payWxApp()">{{ $t('提交订单-sDX') }}</button>
 				<!-- #endif -->
 			</view>
 		</view>
@@ -107,26 +115,27 @@
 
 <script>
 	// pages/fee/payParkingFee.js
-	import context from '../../lib/java110/Java110Context.js';
-	const constant = context.constant;
+	import context from '../../lib/proprietor/proprietorContext.js';
 	import giftCoupon from '@/components/coupon/gift-coupon.vue'
 	
 	import vcDiscount from '@/components/vc-discount/vc-discount.vue'
-
 	
-	// #ifdef H5
 	
-	const WexinPayFactory = require('../../factory/WexinPayFactory.js');
-	
-	// #endif
 	
 	// #ifdef APP-PLUS
 	import {getPayInfo} from '../../factory/WexinAppPayFactory.js'
 	// #endif
 	
-	import {addMonth,formatDate,date2String} from '../../lib/java110/utils/DateUtil.js'
+	import {addMonth,formatDate,date2String} from '../../lib/proprietor/utils/DateUtil.js'
 	
 	import {getCurContract} from '../../api/contract/contractApi.js'
+	const constant = context.constant;
+
+	
+	// #ifdef H5
+	
+	const WexinPayFactory = require('../../factory/WexinPayFactory.js');
+  // #endif
 	export default {
 		components:{
 			vcDiscount,
@@ -137,7 +146,6 @@
 				date: '2018-12-25',
 				index: 0,
 				active: 0,
-				tablist: ['缴费', '历史'],
 				TabCur: 0,
 				scrollLeft: 0,
 				showFeeMonth: false,
@@ -158,7 +166,7 @@
 				contractStartTime: '',
 				contractEndTime: '',
 				costList: [{}, {}], //费用清单
-				additionalAmount: "",
+				additionalAmount: '',
 				appId: '',
 				feeFlag:'',
 				paymentCycle:1,
@@ -172,23 +180,23 @@
 		onLoad: function(options) {
 			context.onLoad(options);
 			// #ifdef MP-WEIXIN
-			let accountInfo = uni.getAccountInfoSync();
+			const accountInfo = uni.getAccountInfoSync();
 			this.appId = accountInfo.miniProgram.appId;
 			// #endif
 			// #ifdef H5
 				this.appId = uni.getStorageSync(constant.mapping.W_APP_ID)
 			// #endif
-			let _fee = JSON.parse(options.fee);
+			const _fee = JSON.parse(options.fee);
 			this._loadCurContract(_fee.contractId);
-			let _amount = _fee.amount;
+			const _amount = _fee.amount;
 			let _receivableAmount = _amount;
-			if(_fee.feeFlag == "2006012"){ // 周期性费用
+			if(_fee.feeFlag == '2006012'){ // 周期性费用
 				_receivableAmount = _amount;
 			}else{ // 一次性费用
 				_receivableAmount = (_amount * _fee.paymentCycle).toFixed(2);
 			}
-			let _communityInfo = context.getCurrentCommunity();
-			let _lastDate = new Date(_fee.endTime);
+			const _communityInfo = context.getCurrentCommunity();
+			const _lastDate = new Date(_fee.endTime);
 			this.receivableAmount = _receivableAmount;
 			this.communityId = _communityInfo.communityId;
 			this.communityName = _communityInfo.communityName;
@@ -214,13 +222,18 @@
 			}
 			this.feeMonthName = this.paymentCycle + '个月';
 			this.feeMonth = this.paymentCycle;
-			let _endTime = addMonth(_lastDate, parseInt(this.feeMonth));
+			const _endTime = addMonth(_lastDate, parseInt(this.feeMonth));
 			this.endTime = formatDate(_endTime);
 			
 			this.$nextTick(() => {
 				this.$refs.vcDiscountRef._loadFeeDiscount(this.feeId,this.communityId,this.feeMonth);
 				this.$refs.giftCoupon.listGiftCoupon(this.feeId, this.communityId, this.feeMonth);
 			})
+		},
+		computed: {
+			tablist() {
+				return [this.$t('缴费-OKv'), this.$t('历史-8KF')]
+			}
 		},
 		methods: {
 			computeFeeDiscount:function(_price){
@@ -229,12 +242,12 @@
 			},
 			dateChange: function(e) {
 				let _feeMonthName = null;
-				_feeMonthName = this.feeMonthList[e.detail.value];;
-				let _feeMonth = _feeMonthName.replace("个月","");
-				 let _receivableAmount = _feeMonth * this.amount;
+				_feeMonthName = this.feeMonthList[e.detail.value];
+				const _feeMonth = _feeMonthName.replace('个月','');
+				 const _receivableAmount = _feeMonth * this.amount;
 				//let _receivableAmount = _feeMonth * (this.builtUpArea * this.squarePrice + parseFloat(this.additionalAmount));
-				let _lastDate = new Date(this.ordEndTime);
-				let _newDate = addMonth(_lastDate, parseInt(_feeMonth));
+				const _lastDate = new Date(this.ordEndTime);
+				const _newDate = addMonth(_lastDate, parseInt(_feeMonth));
 				this.showFeeMonth = false;
 				this.feeMonthName = _feeMonthName;
 				this.receivableAmount = _receivableAmount.toFixed(2);
@@ -250,13 +263,13 @@
 				this.showFeeMonth = false;
 			},
 			_payWxApp: function(_data) {
-				let _receivedAmount = this.receivableAmount;
+				const _receivedAmount = this.receivableAmount;
 				wx.showLoading({
 					title: '支付中'
 				});
 
-				let _tradeType = 'APP';
-				let _objData = {
+				const _tradeType = 'APP';
+				const _objData = {
 					cycles: this.feeMonth,
 					communityId: this.communityId,
 					feeId: this.feeId,
@@ -269,12 +282,12 @@
 				context.request({
 					url: constant.url.preOrder,
 					header: context.getHeaders(),
-					method: "POST",
+					method: 'POST',
 					data: _objData,
 					//动态数据
 					success: function(res) {
 						if (res.statusCode == 200 && res.data.code == '0') {
-							let data = res.data; //成功情况下跳转
+							const data = res.data; //成功情况下跳转
 							
 							let obj = {};
 							let orderInfo = {};
@@ -300,7 +313,7 @@
 								orderInfo: orderInfo, //微信、支付宝订单数据
 								success: function(res) {
 									uni.showToast({
-										title: "支付成功",
+										title: '支付成功',
 										duration: 2000
 									});
 									uni.navigateBack({});
@@ -315,7 +328,7 @@
 
 						wx.hideLoading();
 						wx.showToast({
-							title: "缴费失败",
+							title: '缴费失败',
 							icon: 'none',
 							duration: 2000
 						});
@@ -323,7 +336,7 @@
 					fail: function(e) {
 						wx.hideLoading();
 						wx.showToast({
-							title: "服务器异常了",
+							title: '服务器异常了',
 							icon: 'none',
 							duration: 2000
 						});
@@ -331,12 +344,12 @@
 				});
 			},
 			onPayFee: function() {
-				let _receivedAmount = this.receivableAmount;
+				const _receivedAmount = this.receivableAmount;
 				wx.showLoading({
 					title: '支付中'
 				});
-				let _tradeType = 'JSAPI';
-				let _objData = {
+				const _tradeType = 'JSAPI';
+				const _objData = {
 					cycles: this.feeMonth,
 					communityId: this.communityId,
 					feeId: this.feeId,
@@ -351,13 +364,13 @@
 				context.request({
 					url: constant.url.preOrder,
 					header: context.getHeaders(),
-					method: "POST",
+					method: 'POST',
 					data: _objData,
 					//动态数据
 					success: function(res) {
 
 						if (res.statusCode == 200 && res.data.code == '0') {
-							let data = res.data; //成功情况下跳转
+							const data = res.data; //成功情况下跳转
 							// #ifdef MP-WEIXIN
 							uni.requestPayment({
 								'timeStamp': data.timeStamp,
@@ -367,7 +380,7 @@
 								'paySign': data.sign,
 								'success': function(res) {
 									uni.showToast({
-										title: "支付成功",
+										title: '支付成功',
 										duration: 2000
 									});
 									uni.navigateBack({});
@@ -380,7 +393,7 @@
 							// #ifdef H5
 								WexinPayFactory.wexinPay(data,function(){
 									uni.showToast({
-										title: "支付成功",
+										title: '支付成功',
 										duration: 2000
 									});
 									uni.navigateBack({});
@@ -392,7 +405,7 @@
 
 						wx.hideLoading();
 						wx.showToast({
-							title: "缴费失败",
+							title: '缴费失败',
 							icon: 'none',
 							duration: 2000
 						});
@@ -400,7 +413,7 @@
 					fail: function(e) {
 						wx.hideLoading();
 						wx.showToast({
-							title: "服务器异常了",
+							title: '服务器异常了',
 							icon: 'none',
 							duration: 2000
 						});
@@ -408,7 +421,7 @@
 				});
 			},
 			_loadCurContract:function(_contractId){
-				let _that =this;
+				const _that =this;
 				getCurContract({
 					contractId:_contractId
 				}).then(data =>{

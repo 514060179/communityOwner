@@ -1,23 +1,15 @@
-import {
-	requestNoAuth,
-	request
-} from '../../lib/java110/java110Request.js';
-import
-url
-from '../../constant/url.js'
+import { requestNoAuth, request } from '../../lib/proprietor/proprietorRequest.js';
+import url from '../../constant/url.js'
 
 
-import {
-	hasLogin
-} from '../../lib/java110/page/Page.js'
+import { hasLogin } from '../../lib/proprietor/page/Page.js'
 
 import mapping from '../../constant/MappingConstant.js'
 
-import {
-	getCurOwner
-} from '../owner/ownerApi.js'
+import { getCurOwner } from '../owner/ownerApi.js'
 
 import conf from '../../conf/config.js'
+import { i18n } from '@/main.js'
 
 
 /**
@@ -46,7 +38,7 @@ export function getCommunitys(dataObj) {
 				},
 				fail: function(e) {
 					wx.showToast({
-						title: "服务器异常了",
+						title: i18n.t("服务器异常了-eja"),
 						icon: 'none',
 						duration: 2000
 					});
@@ -99,6 +91,14 @@ export function getCommunityTel() {
 	let _currentCommunity = uni.getStorageSync("currentCommunityInfo")
 	if (_currentCommunity) {
 		return _currentCommunity.sCommunityTel;
+	}
+	return '';
+}
+
+export function getCommunityOwnerName() {
+	let _currentCommunity = uni.getStorageSync("currentCommunityInfo")
+	if (_currentCommunity) {
+		return _currentCommunity.appUserName || _currentCommunity.ownerName;
 	}
 	return '';
 }
@@ -240,7 +240,7 @@ export function queryFloors(_objData) {
 			fail: function(e) {
 				uni.hideLoading();
 				uni.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none'
 				})
 			}
@@ -260,7 +260,7 @@ export function queryUnits(_objData) {
 			fail: function(e) {
 				uni.hideLoading();
 				uni.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none'
 				})
 			}
@@ -285,7 +285,7 @@ export function queryRoomsByApp(_objData) {
 			fail: function(e) {
 				uni.hideLoading();
 				uni.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none'
 				})
 			}

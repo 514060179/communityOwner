@@ -1,23 +1,25 @@
 import {
 	requestNoAuth,
 	request
-} from '../../lib/java110/java110Request.js';
-import
-url
-from '../../constant/url.js';
+} from '../../lib/proprietor/proprietorRequest.js';
+import url from '../../constant/url.js';
+import { checkPhoneNumber } from '../../lib/proprietor/utils/StringUtil.js'
+import { i18n } from '@/main.js'
 
 export function complaint(_data) {
 	
 	return new Promise((resolve, reject) => {
 		let msg = "";
 		if (_data.typeCd == "") {
-			msg = "请选择投诉类型";
+			msg = i18n.t("请选择投诉类型-ClT");
 		} else if (_data.complaintName == "") {
-			msg = "请填写投诉人";
+			msg = i18n.t("请填写投诉人-aZd");
 		} else if (_data.tel == "") {
-			msg = "请填写手机号";
+			msg = i18n.t("请填写手机号-qYB");
+		} else if (!checkPhoneNumber(_data.tel, _data.areaCode)) {
+			msg = i18n.t("手机格式不正确-ZQ1");
 		} else if (_data.context == "") {
-			msg = "请填写投诉内容";
+			msg = i18n.t("请填写投诉内容-zX4");
 		}
 		console.log('msg=',msg)
 		if (msg != "") {
@@ -78,6 +80,7 @@ export function getComplaints(_obj){
 					resolve(data);
 				} else {
 					uni.showToast({
+            icon: 'none',
 						title: data.msg
 					})
 				}
@@ -119,14 +122,14 @@ export function appraiseComplaint(_data) {
 	return new Promise((resolve, reject) => {
 		if(_data.context == ''){
 			uni.showToast({
-				title:'请填写评价内容',
+				title:i18n.t('请填写评价内容-qnj'),
 				icon:'none'
 			});
 			return ;
 		}
 		if(_data.complaintId == ''){
 			uni.showToast({
-				title:'未包含报修信息',
+				title:i18n.t('未包含报修信息-f85'),
 				icon:'none'
 			});
 			return ;

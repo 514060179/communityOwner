@@ -1,72 +1,113 @@
 /**
- * HC智慧家园配置文件
- * 
+ *
  * 本项目只有这里修改相应配置信息，如果不是二次开发 请不要修改其他文件内容
- * 
- * @website http://www.homecommunity.cn/
- * @author 吴学文
- * @QQ 928255095
+ *
+ * @author Ivan
+ *
  */
-let _systemConfig = uni.getStorageSync('java110SystemConfig');
-// #ifdef H5
-// 服务器域名 公众号时，配置为 / 就可以
-const baseUrl = '/';
-// #endif
 
-// #ifndef H5
-//服务器域名 小程序 或者 app 时 后端地址
-const baseUrl = 'https://wuye.taksongroup.com/';
-// #endif
+/**
+ * @description 是否是生产，用于打包切换环境切换 true: 生产包  false: 测试或开发包
+ * @param {Boolean}
+ */
+// 是否可切环境
+const isSwitch = true;
 
-let commonBaseUrl = 'http://demo.homecommunity.cn/';
+// 是否生产环境
+let isRelease = false;
 
+// 获取用户手动设置的环境
+const evn = uni.getStorageSync("evn");
+if (isSwitch && evn !== "") isRelease = evn;
+
+/**
+ * 区分环境
+ */
+
+// oss资源url
+let commonBaseUrl = "";
+
+// 服务器域名
+let baseUrl = "";
 //商城的url
-let mallUrl = 'http://mallapp.homecommunity.cn/';
-
+let mallUrl = "";
 //商城小程序ID
-let mallMinAppId = "xxx";
-
-//默认的小区ID和名称，用户还没有登录时显示的小区信息
-
-let DEFAULT_COMMUNITY_ID = "2023052267100146"; //HC测试小区id  用于没有登录时展示相关信息
-let DEFAULT_COMMUNITY_NAME = "HC演示小区";
-
+let mallMinAppId = "";
 // APP 或者 公众号  appId
-const wAppId = ""; //微信AppId
-
+let wAppId = ""; //微信AppId
 //app支付时这里需要填写支付秘钥
-const appPayKey = "";
+let appPayKey = "";
+// 日志级别
+const logLevel = "DEBUG";
+// 商场首页
+const mallUrlIndexPage = mallUrl + "#/pages/index/index?mallFrom=HC";
+//商城token 刷新页面
+const mallUrlRefresh = mallUrl + "#/pages/mallTokenRefresh/mallTokenRefresh?mallFrom=HC";
+/**
+ * 判断环境
+ */
+if (isRelease) {
+  // 生产
+  // #ifdef H5
+  baseUrl = "/";
+  // #endif
 
-const logLevel = "DEBUG"; // 日志级别
+  // #ifdef APP
+  baseUrl = "https://proprietor.newlandgo.com/";
+  // #endif
 
-let systemName="业主版";
+  // 不区分端
+  commonBaseUrl = "https://newland-property.oss-cn-hangzhou.aliyuncs.com";
+  // 商城访问地址
+  mallUrl = "http://mallapp.homecommunity.cn";
+} else {
+  // 测试、开发
+  // #ifdef H5
+  baseUrl = "/";
+  // #endif
 
-if(_systemConfig){
-	mallUrl = _systemConfig.mallUrl;
-	commonBaseUrl = _systemConfig.imgUrl;
-	systemName = _systemConfig.ownerTitle;
-	DEFAULT_COMMUNITY_ID = _systemConfig.defaultCommunityId;
+  // #ifdef APP
+  // TODO： 待替换
+  // baseUrl = 'https://proprietoruat.newlandgo.com/'
+  baseUrl = "https://proprietoruatmo.newlandgo.com/";
+  // #endif
+
+  // 不区分端
+  commonBaseUrl = "https://newland-property.oss-cn-hangzhou.aliyuncs.com";
+  // 商城访问地址
+  mallUrl = "https://mpromalluat.newlandgo.com";
+  // mallUrl = "http://192.168.10.229:8000";
 }
 
-const mallUrlIndexPage = mallUrl + '#/pages/index/index?mallFrom=HC';
-
-//商城token 刷新页面
-const mallUrlRefresh = mallUrl + "#/pages/mallTokenRefresh/mallTokenRefresh?mallFrom=HC"
-
-
+/**
+ * 不区分环境
+ */
+// 系统配置
+let DEFAULT_COMMUNITY_ID = "";
+let systemName = "脈動";
+const _systemConfig = uni.getStorageSync("proprietorSystemConfig");
+if (_systemConfig) {
+  mallUrl = _systemConfig.mallUrl;
+  commonBaseUrl = _systemConfig.imgUrl;
+  systemName = _systemConfig.ownerTitle;
+  DEFAULT_COMMUNITY_ID = _systemConfig.defaultCommunityId;
+}
 
 export default {
-	baseUrl: baseUrl,
-	mallUrl: mallUrl,
-	mallUrlIndexPage: mallUrlIndexPage,
-	mallUrlRefresh: mallUrlRefresh,
-	commonBaseUrl: commonBaseUrl,
-	DEFAULT_COMMUNITY_ID: DEFAULT_COMMUNITY_ID,
-	DEFAULT_COMMUNITY_NAME: DEFAULT_COMMUNITY_NAME,
-	wAppId: wAppId,
-	logLevel: logLevel,
-	appPayKey: appPayKey,
-	imgUrl:commonBaseUrl,
-	systemName:systemName,
-	mallMinAppId:mallMinAppId
-}
+  baseUrl: baseUrl,
+  mallUrl: mallUrl,
+  mallUrlIndexPage: mallUrlIndexPage,
+  mallUrlRefresh: mallUrlRefresh,
+  commonBaseUrl: commonBaseUrl,
+  // 用于没有登录展示
+  DEFAULT_COMMUNITY_ID: DEFAULT_COMMUNITY_ID,
+  DEFAULT_COMMUNITY_NAME: "暫未綁定小區",
+  wAppId: wAppId,
+  logLevel: logLevel,
+  appPayKey: appPayKey,
+  imgUrl: commonBaseUrl,
+  systemName: systemName,
+  mallMinAppId: mallMinAppId,
+  isPro: isRelease,
+  isSwitch: isSwitch,
+};

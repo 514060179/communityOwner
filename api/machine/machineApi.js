@@ -1,21 +1,17 @@
 /**
  * 车辆信息处理 api 接口类
  * 
- * add by 吴学文 QQ 928255095
  */
 
 
 import {
 	request,
 	requestNoAuth
-} from '../../lib/java110/java110Request.js'
-import
-url
-from '../../constant/url.js'
+} from '../../lib/proprietor/proprietorRequest.js'
+import url from '../../constant/url.js'
 
-import
-mapping
-from '../../constant/MappingConstant.js'
+import mapping from '../../constant/MappingConstant.js'
+import { i18n } from '@/main.js'
 
 /**
  * 查询业主车辆
@@ -31,12 +27,12 @@ export function getMachineTranslates(_objData) {
 					//将业主信息和房屋信息一起返回
 					let _machineTranslates = res.data.machineTranslates;
 					if (_machineTranslates.length == 0) {
-						reject("没有记录");
+						reject(i18n.t("没有记录-dGI"));
 						return;
 					}
 					resolve(_machineTranslates);
 				} else {
-					reject("查询失败");
+					reject(i18n.t("查询失败-CIM"));
 				}
 			},
 			fail: function(res) {
@@ -274,3 +270,27 @@ export function getChargeMonthCard(_objData) {
 	});
 };
 
+
+/**
+ * 获取门禁日志列表
+**/
+
+export function getOpenList(_objData) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: url.getOpenApi,
+      method: "GET",
+      data: _objData,
+      success: function(res) {
+        if (res.data.code == 0) {
+          resolve(res.data.data)
+        } else {
+          reject(res.data.msg)
+        }
+      },
+      fail: function(res) {
+        reject(res)
+      }
+    })
+  })
+}

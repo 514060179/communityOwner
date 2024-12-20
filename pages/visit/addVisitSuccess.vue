@@ -1,16 +1,16 @@
 <template>
 	<view>
-		<view class="scs-t">{{msg}}</view>
+		<view class="scs-t">{{ msg }}</view>
 		
 		<view class="flex flex-direction fixed-bottom" style="width: 100%;">
-			<button class="cu-btn bg-green margin-tb-sm lg" @click="toIndex()">返回首页</button>
+			<button class="cu-btn bg-green margin-tb-sm lg" @click="toIndex()">{{ $t('返回首页-A1Q') }}</button>
 		</view>
 	</view>
 </template>
 
 <script>
 	// pages/visit/addVisitSuccess.js
-	import context from '../../lib/java110/Java110Context.js';
+	import context from '../../lib/proprietor/proprietorContext.js';
 
 	export default {
 		data() {

@@ -4,7 +4,7 @@
 
 import {
 	request
-} from '../../lib/java110/java110Request.js'
+} from '../../lib/proprietor/proprietorRequest.js'
 import
 url
 from '../../constant/url.js'

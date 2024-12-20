@@ -1,18 +1,17 @@
 /**
  * 业主相关 数据封装API
- * add by 吴学文 2020-09-07
- * QQ 92825595
  * 
  */
 
 import {
 	request
-} from '../../lib/java110/java110Request.js';
+} from '../../lib/proprietor/proprietorRequest.js';
 import
 url
 from '../../constant/url.js';
 
 import mapping from '../../constant/MappingConstant.js';
+import { i18n } from '@/main.js'
 
 import {
 	hasLogin
@@ -61,9 +60,9 @@ export function hasAuthOwner(_that) {
 		if (!hasLogin()) {
 			uni.showToast({
 				icon: 'none',
-				title: '未登录,请先登录!'
+				title: i18n.t('未登录,请先登录!-ZMp')
 			});
-			reject('未登录,请先登录!');
+			reject(i18n.t('未登录,请先登录!-ZMp'));
 			return;
 		}
 		let _ownerInfo = wx.getStorageSync(mapping.OWNER_INFO);
@@ -91,9 +90,10 @@ export function hasAuthOwner(_that) {
 				wx.setStorageSync(mapping.OWNER_INFO, _ownerInfo);
 				let _currentCommunityInfo = {
 					communityId: _ownerInfo.communityId,
-					communityName: _ownerInfo.communityName
+					communityName: _ownerInfo.communityName,
+          sCommunityTel: _ownerInfo.communityTel
 				};
-				wx.setStorageSync(mapping.CURRENT_COMMUNITY_INFO, _currentCommunityInfo);
+				wx.setStorageSync(mapping.CURRENT_COMMUNITY_INFO, { ..._ownerInfo, ..._currentCommunityInfo });
 				resolve(_ownerInfo);
 			},
 			fail: function(error) {
@@ -128,7 +128,8 @@ export function getCurOwner() {
 export function refreshOwner() {
 	return new Promise(
 		(resolve, reject) => {
-			let _userInfo = wx.getStorageSync(mapping.USER_INFO);
+			let _userInfo = uni.getStorageSync(mapping.USER_INFO);
+      console.log(_userInfo, '_userInfo')
 			if (!_userInfo) {
 				reject();
 				return;
@@ -148,12 +149,13 @@ export function refreshOwner() {
 							return;
 						}
 						if (_ownerInfo.state == '12000') {
-							wx.setStorageSync(mapping.OWNER_INFO, _ownerInfo);
+							uni.setStorageSync(mapping.OWNER_INFO, _ownerInfo);
 							let _currentCommunityInfo = {
 								communityId: _ownerInfo.communityId,
-								communityName: _ownerInfo.communityName
+								communityName: _ownerInfo.communityName,
+                sCommunityTel: _ownerInfo.communityTel
 							};
-							wx.setStorageSync(mapping.CURRENT_COMMUNITY_INFO, _currentCommunityInfo);
+							uni.setStorageSync(mapping.CURRENT_COMMUNITY_INFO, _currentCommunityInfo);
 						}
 						resolve(_json.data[0]);
 					}
@@ -201,19 +203,19 @@ export function saveUpdateUserAddress(_data) {
 	return new Promise((resolve, reject) => {
 
 		if (_data.userId == '') {
-			reject("用户不能为空");
+			reject(i18n.t("用户不能为空-k2I"));
 			return;
 		} else if (_data.areaCode == '') {
-			reject("地区不能为空");
+			reject(i18n.t("地区不能为空-kiw"));
 			return;
 		} else if (_data.tel == '') {
-			reject("手机号不能为空");
+			reject(i18n.t("手机号不能为空-lEt"));
 			return;
 		} else if (_data.address == '') {
-			reject("地址不能为空");
+			reject(i18n.t("地址不能为空-ue1"));
 			return;
 		} else if (_data.isDefault == '') {
-			reject("默认地址不能为空");
+			reject(i18n.t("默认地址不能为空-TI1"));
 			return;
 		}
 		let moreRooms = [];
@@ -245,10 +247,10 @@ export function deleteUserAddress(_data) {
 	return new Promise((resolve, reject) => {
 
 		if (_data.userId == '') {
-			reject("用户不能为空");
+			reject(i18n.t("用户不能为空-k2I"));
 			return;
 		} else if (_data.addressId == '') {
-			reject("地址不能为空");
+			reject(i18n.t("地址不能为空-ue1"));
 			return;
 		}
 		request({
@@ -279,10 +281,10 @@ export function deleteOwnerMember(_data) {
 	return new Promise((resolve, reject) => {
 
 		if (_data.memberId == '') {
-			reject("成员ID不能为空");
+			reject(i18n.t("成员ID不能为空-bOY"));
 			return;
 		} else if (_data.communityId == '') {
-			reject("小区不能为空");
+			reject(i18n.t("小区不能为空-dCN"));
 			return;
 		}
 		request({
@@ -308,35 +310,31 @@ export function deleteOwnerMember(_data) {
  * 
  */
 export function hasOwner() {
-	let loginFlag = wx.getStorageSync(mapping.LOGIN_FLAG);
-	let nowDate = new Date();
-	//判断如果是APP
-	if (!loginFlag || loginFlag.expireTime < nowDate.getTime()) {
-		return;
-	}
+  const token = uni.getStorageSync("token")
+  if (!token) return
 	let _ownerInfo = wx.getStorageSync(mapping.OWNER_INFO);
 	if (!_ownerInfo) {
 		uni.showToast({
 			icon: 'none',
-			title: '未查询到业主房产'
+			title: i18n.t('未查询到业主房产-ify')
 		})
-		throw new Error('业主不存在');
+		throw new Error(i18n.t('业主不存在-DLp'));
 	}
 
 	let _memberId = _ownerInfo.memberId;
 	if (!_memberId) {
 		uni.showToast({
 			icon: 'none',
-			title: '未查询到业主房产'
+			title: i18n.t('未查询到业主房产-ify')
 		})
-		throw new Error('业主不存在');
+		throw new Error(i18n.t('业主不存在-DLp'));
 	}
 	if (_memberId == '-1') {
 		uni.showToast({
 			icon: 'none',
-			title: '未查询到业主房产'
+			title: i18n.t('未查询到业主房产-ify')
 		})
-		throw new Error('业主不存在');
+		throw new Error(i18n.t('业主不存在-DLp'));
 	}
 }
 
@@ -350,6 +348,7 @@ export function loadLoginOwner(_data) {
 			success: function(res) {
 				let _data = res.data;
 				if (_data.code == 0) {
+          uni.setStorageSync('userHeaderImg', _data.data.url)
 					resolve(_data.data);
 					return;
 				}
@@ -369,17 +368,17 @@ export function loadLoginOwner(_data) {
 export function authOwner(_data) {
 	let msg = "";
 	if (_data.communityId == "") {
-		msg = "请选择小区";
+		msg = i18n.t("请选择小区-M5Q");
 	} else if (_data.roomId == "") {
-		msg = "请选择房屋";
+		msg = i18n.t("请选择房屋-KI3");
 	} else if (_data.roomName == "") {
-		msg = "请选择房屋";
+		msg = i18n.t("请选择房屋-KI3");
 	} else if (_data.link == "") {
-		msg = "请填写手机号";
+		msg = i18n.t("请填写手机号-qYB");
 	} else if (_data.ownerName == "") {
-		msg = "请填写人员名称";
+		msg = i18n.t("请填写人员名称-XrC");
 	} else if (_data.ownerTypeCd == "") {
-		msg = "请选择人员类型";
+		msg = i18n.t("请选择人员类型-cWd");
 	}
 
 	if (msg != "") {

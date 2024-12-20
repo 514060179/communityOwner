@@ -7,11 +7,11 @@
 
 import {
 	request
-} from '../../lib/java110/java110Request.js'
+} from '../../lib/proprietor/proprietorRequest.js'
 import
 url
 from '../../constant/url.js'
-import {formatTime}  from '../../lib/java110/utils/DateUtil.js'
+import {formatTime}  from '../../lib/proprietor/utils/DateUtil.js'
 
 /**
  * 查询访客列表

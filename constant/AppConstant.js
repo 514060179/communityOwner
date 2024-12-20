@@ -21,7 +21,7 @@ class AppConstant {
   // #endif
   
   // #ifdef APP-PLUS
-  static appId = "992020061440050003";
+  static appId = "992020061452450002";
   static appSecurity = "";
   // #endif
 }

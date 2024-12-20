@@ -1,12 +1,8 @@
 <!--
 
-sx-rate  uni-app滑选星星组件
-
 版本 1.1.2
 
 日期 2020-6-4
-
-作者 sunxi1997
 
 链接 https://ext.dcloud.net.cn/plugin?id=1027
 
@@ -33,10 +29,10 @@ sx-rate  uni-app滑选星星组件
 </template>
 
 <script>
-  import { getClientRect } from "./common";
+  import { getClientRect } from './common';
 
   export default {
-    name: 'sx-rate',
+    name: 'SxRate',
     props: {
       // 当前值
       value: {
@@ -107,20 +103,20 @@ sx-rate  uni-app滑选星星组件
           return 0;
 
         switch (typeof margin) {
-          case "number":
+          case 'number':
             margin += 'px';
-          case "string":
+          case 'string':
             break;
           default:
             return 0;
         }
 
-        let reg = /^(\d+)([^\d]*)/;
-        let result = reg.exec(margin);
+        const reg = /^(\d+)([^\d]*)/;
+        const result = reg.exec(margin);
         if (!result)
           return 0;
 
-        let [_, num, unit] = result;
+        const [_, num, unit] = result;
         return num / 2 + unit;
       }
     },
@@ -135,13 +131,13 @@ sx-rate  uni-app滑选星星组件
     methods: {
       // 计算星星位置
       async initStartX() {
-        let {max} = this;
+        const {max} = this;
         this.startX = [];
 
         for (let i = 0; i < max; i++) {
 
-          let selector = `.rate-${ i }`;
-          let {left, width} = await getClientRect(selector, this);
+          const selector = `.rate-${ i }`;
+          const {left, width} = await getClientRect(selector, this);
 
           this.startX.push(left);
           this.startW = width;
@@ -160,11 +156,11 @@ sx-rate  uni-app滑选星星组件
           await this.initStartX();
         }
 
-        let {startX, startW, max} = this;
-        let {touches} = e;
+        const {startX, startW, max} = this;
+        const {touches} = e;
 
         // 触摸焦点停留的位置
-        let {pageX} = touches[touches.length - 1];
+        const {pageX} = touches[touches.length - 1];
 
 
         // 超出最左边, 0 星
@@ -180,17 +176,17 @@ sx-rate  uni-app滑选星星组件
           return this.toggle(max);
 
         //计算星星停留的位置
-        let startXHash = startX.concat(pageX).sort((a, b) => a - b);
+        const startXHash = startX.concat(pageX).sort((a, b) => a - b);
         this.toggle(startXHash.indexOf(pageX));
       },
       // 点击回调
       onItemClick(e) {
-        let {val} = e.currentTarget.dataset;
+        const {val} = e.currentTarget.dataset;
         this.toggle(+val)
       },
       // 修改值
       toggle(val) {
-        let {disabled} = this;
+        const {disabled} = this;
         val = +val;
         if (disabled || isNaN(val))
           return;

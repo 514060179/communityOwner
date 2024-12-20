@@ -1,6 +1,6 @@
 import {
 	request
-} from '../../lib/java110/java110Request.js'
+} from '../../lib/proprietor/proprietorRequest.js'
 import
 url
 from '../../constant/url.js'
@@ -12,7 +12,7 @@ from '../../constant/MappingConstant.js'
 import {
 	formatDate,
 	dateTimeStringToDateString
-} from '../../lib/java110/utils/DateUtil.js'
+} from '../../lib/proprietor/utils/DateUtil.js'
 // #ifdef H5
 import WexinPayFactory from '../../factory/WexinPayFactory.js'
 
@@ -20,21 +20,22 @@ import WexinPayFactory from '../../factory/WexinPayFactory.js'
 
 import {
 	checkSession
-} from '../../lib/java110/page/Page.js'
+} from '../../lib/proprietor/page/Page.js'
 
 import conf from '../../conf/config.js'
 
-import {isNull} from '../../lib/java110/utils/StringUtil.js'
+import {isNull} from '../../lib/proprietor/utils/StringUtil.js'
 
 import {
 	encodeUrl
-} from '../../lib/java110/utils/UrlUtil.js';
+} from '../../lib/proprietor/utils/UrlUtil.js';
 
-import {getStorageSync,setStorageSync} from '../../lib/java110/utils/StorageUtil.js'
+import {getStorageSync,setStorageSync} from '../../lib/proprietor/utils/StorageUtil.js'
 
-import {uuid} from '../../lib/java110/utils/SeqUtil.js'
+import {uuid} from '../../lib/proprietor/utils/SeqUtil.js'
 
-import {getWAppId} from '../../lib/java110/utils/StorageUtil.js'
+import {getWAppId} from '../../lib/proprietor/utils/StorageUtil.js'
+import { i18n } from '@/main.js'
 
 const ACTION_NAVIGATE_TO = "navigateTo"; // 跳转
 const ACTION_REFRESH_TOKEN = "refreshToken";
@@ -68,10 +69,10 @@ export function getHcCode(_objData) {
 					resolve(_hcCodeInfo);
 					return;
 				}
-				reject();
+				reject(res);
 			},
 			fail: function(e) {
-				reject();
+				reject(e);
 			}
 		});
 	})
@@ -96,7 +97,7 @@ export function toPay(data, _url) {
 			'paySign': data.sign,
 			'success': function(res) {
 				uni.showToast({
-					title: "支付成功",
+					title: i18n.t("支付成功-u1S"),
 					duration: 2000
 				});
 				uni.redirectTo({
@@ -114,7 +115,7 @@ export function toPay(data, _url) {
 		// #ifdef H5
 		WexinPayFactory.wexinPay(data, function() {
 			uni.showToast({
-				title: "支付成功",
+				title: i18n.t("支付成功-u1S"),
 				duration: 2000
 			});
 			uni.redirectTo({
@@ -130,9 +131,8 @@ export function toPay(data, _url) {
 			provider: 'wxpay',
 			orderInfo: orderInfo, //微信、支付宝订单数据
 			success: function(res) {
-				console.log("购买", res)
 				uni.showToast({
-					title: "支付成功",
+					title: i18n.t("支付成功-u1S"),
 					duration: 2000
 				});
 				uni.redirectTo({
@@ -140,7 +140,6 @@ export function toPay(data, _url) {
 				});
 			},
 			fail: function(err) {
-				console.log("购买失败", err)
 				uni.showToast({
 					icon: 'none',
 					title: err
@@ -173,7 +172,7 @@ export function switchPage(_url){
  * @param {Object} event事件
  */
 export function reciveMessage(event, that) {
-	console.log('商城回传的参数', event);
+	// console.log('商城回传的参数', event);
 	let _data = event.data;
 	if (_data.action == ACTION_NAVIGATE_HOME) {
 		switchPage(_data.url);
@@ -182,7 +181,7 @@ export function reciveMessage(event, that) {
 	if(_data.hasOwnProperty("url") && !isNull(_data.url)){
 		setStorageSync(mapping.HC_MALL_CUR_URL,_data.url);
 	}
-	console.log('_data', _data);
+	// console.log('_data', _data);
 	if (_data.action == ACTION_NAVIGATE_TO) {
 		uni.navigateTo({
 			url: '/pages/hcWebView/hcWebView?java110Id='+uuid()

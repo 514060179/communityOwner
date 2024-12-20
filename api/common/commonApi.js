@@ -7,14 +7,11 @@ import {
 	request,
 	requestNoAuth,
 	uploadFile
-} from '../../lib/java110/java110Request.js'
-import
-url
-from '../../constant/url.js'
+} from '../../lib/proprietor/proprietorRequest.js'
+import url from '../../constant/url.js'
 
-import
-mapping
-from '../../constant/MappingConstant.js'
+import mapping from '../../constant/MappingConstant.js'
+import { i18n } from '@/main.js'
 
 function timer(_that) {
 	let promise = new Promise((resolve, reject) => {
@@ -26,7 +23,7 @@ function timer(_that) {
 				_that.btnDisabled = true;
 				if (_that.second <= 0) {
 					_that.second = 60;
-					_that.btnValue = '获取验证码';
+					_that.btnValue = i18n.t('获取验证码-TpM');
 					_that.btnDisabled = false;
 					resolve(setTimer)
 				}
@@ -48,7 +45,7 @@ export function sendMessageCode(_objData,_that) {
 				//成功情况下跳转
 				if (res.statusCode == 200) {
 					uni.showToast({
-						title: '验证码下发成功',
+						title: i18n.t('验证码下发成功-3um'),
 						icon: 'none',
 						duration: 2000
 					});
@@ -66,7 +63,7 @@ export function sendMessageCode(_objData,_that) {
 			fail: function(e) {
 				uni.hideLoading();
 				uni.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none',
 					duration: 2000
 				})
@@ -93,7 +90,7 @@ export function uploadImageAsync(_objData,_that) {
 			fail: function(e) {
 				uni.hideLoading();
 				uni.showToast({
-					title: "服务器异常了",
+					title: i18n.t("服务器异常了-eja"),
 					icon: 'none'
 				})
 			}

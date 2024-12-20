@@ -1,19 +1,14 @@
 import {
 	request,
 	requestNoAuth
-} from '../../lib/java110/java110Request.js'
-import
-url
-from '../../constant/url.js'
+} from '../../lib/proprietor/proprietorRequest.js'
+import url from '../../constant/url.js'
 
-import
-mapping
-from '../../constant/MappingConstant.js'
+import mapping from '../../constant/MappingConstant.js'
 
-import {
-	formatDate,
-	dateTimeStringToDateString
-} from '../../lib/java110/utils/DateUtil.js';
+import { formatDate, dateTimeStringToDateString } from '../../lib/proprietor/utils/DateUtil.js';
+
+import { i18n } from '@/main.js'
 
 
 /**
@@ -49,11 +44,11 @@ function timer(_that) {
 			() => {
 				let second = _that.second - 1;
 				_that.second = second;
-				_that.btnValue = second + '秒';
+				_that.btnValue = second + i18n.t('秒-YHR');
 				_that.btnDisabled = true;
 				if (_that.second <= 0) {
 					_that.second = 60;
-					_that.btnValue = '获取验证码';
+					_that.btnValue = i18n.t('获取验证码-TpM');
 					_that.btnDisabled = false;
 					resolve(setTimer)
 				}
@@ -74,7 +69,7 @@ function timer(_that) {
  */
 export function sendMsgCode(_that, _data) {
 	uni.showLoading({
-		title: '加载中',
+		title: i18n.t('加载中-BUD'),
 		mask: true
 	});
 	requestNoAuth({
@@ -97,7 +92,7 @@ export function sendMsgCode(_that, _data) {
 		fail: function(e) {
 			uni.hideLoading();
 			uni.showToast({
-				title: "服务器异常了",
+				title: i18n.t("服务器异常了-eja"),
 				icon: 'none',
 				duration: 2000
 			})

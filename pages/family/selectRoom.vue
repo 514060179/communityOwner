@@ -1,18 +1,18 @@
 <template>
 	<view>
 		<view class="cu-form-group">
-			<view class="title">选择楼栋</view>
+			<view class="title">{{ $t('选择楼栋-1vE') }}</view>
 			<picker :value="floorIndex" :range="floors" :range-key="'floorNum'" @change="floorChange">
 				<view class="picker">
-					{{floorIndex == -1 ? '请选择' :floors[floorIndex].floorNum}}
+					{{ floorIndex == -1 ? $t('请选择-Ah3') :floors[floorIndex].floorNum }}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">选择单元</view>
+			<view class="title">{{ $t('选择单元-nOs') }}</view>
 			<picker :value="unitIndex" :range="units" :range-key="'unitNum'" @change="unitChange">
 				<view class="picker">
-					{{unitIndex == -1 ? '请选择' :units[unitIndex].unitNum}}
+					{{ unitIndex == -1 ? $t('请选择-Ah3') :units[unitIndex].unitNum }}
 				</view>
 			</picker>
 		</view>
@@ -21,10 +21,10 @@
 			<view class="cu-item" v-for="(room, idx) in rooms" :key="idx" >
 				<view class="content padding-tb-sm" is-link @click="chooseRoom(room)">
 					<view>
-						<text class="cuIcon-clothesfill text-blue margin-right-xs"></text> {{room.roomName}}
+						<text class="cuIcon-clothesfill text-blue margin-right-xs"></text> {{ room.roomName }}
 					</view>
 					<view class="text-gray text-sm">
-						<text class="cuIcon-infofill margin-right-xs"></text>{{room.roomId}}
+						<text class="cuIcon-infofill margin-right-xs"></text>{{ room.roomId }}
 					</view>
 				</view>
 			</view>
@@ -57,17 +57,18 @@
 		},
 		methods: {
 			_loadFloors: function() {
-				let _that = this;
+				const _that = this;
 				queryFloors({
 					page: 1,
 					row: 50,
 					communityId: this.communityId,
 				}).then((_floors) => {
+          console.log(_floors, '_floors')
 					_that.floors = _floors;
 				})
 			},
 			_loadUnits: function() {
-				let _that = this;
+				const _that = this;
 				queryUnits({
 					page: 1,
 					row: 50,
@@ -78,7 +79,7 @@
 				})
 			},
 			_loadRooms: function() {
-				let _that = this;
+				const _that = this;
 				queryRoomsByApp({
 					page: 1,
 					row: 200,
@@ -104,10 +105,11 @@
 				const prevPage = pages[pages.length - 2]; // 上一页面
 				// 设置数据
 				prevPage.roomId= _room.roomId;
-				  prevPage.roomName=_room.roomName;
+				prevPage.roomName=_room.roomName;
 				// #endif
-				// #ifdef MP-WEIXIN
-				uni.setStorageSync("selectRoom",_room);
+        
+				// #ifdef MP-WEIXIN || APP-PLUS
+				uni.setStorageSync('selectRoom',_room);
 				
 				// #endif
 				uni.navigateBack({
