@@ -85,12 +85,12 @@
         <view class="margin-bottom-sm">本協議（包括隱私政策）是您和本產品之間關於本產品相關事項的最終的、完整的、排他的協議，且取代和合並之前當事人關於此類事項（包括之前的最終用戶許可、服務條款和隱私政策）的討論和協議；</view>
         <view class="margin-bottom-sm">每部分的題目只為閱讀之便而無任何法律或合同義務；</view>
         <view class="margin-bottom-sm">除非我們書面同意，您不得轉讓本協議所規定的權利義務。任何違反上述規定企圖轉讓的行為均無效。</view>
-        <view class="margin-bottom-sm">澳門新大陸萬博科技有限公司客戶端</view>
+        <view class="margin-bottom-sm">澳门安智科技有限公司客戶端</view>
       </view>
       <!-- 隐私政策 -->
       <view class="popup-card" v-else-if="type === 'privacy'">
         <view class="margin-bottom-sm">
-          您在使用新大陸‧動脈客戶端（以下簡稱本系統）時，我們可能會收集和使用您的相關信息。我們深知個人信息對您的重要性，因此我們非常重視保護您的隱私和個人信息，我們會將本隱私協議中的內容以高度審慎的義務對待和處理，并將恪守以下原則，保護您的個人信息：權責一致原則、目的明確原則、選擇同意原則、最少够用原則、公開透明原則、確保安全原則、主體參與原則、公開透明原則等。我們將按照法律法規的規定并參照行業最佳實踐保護您的個人信息及隱私安全。
+          您在使用安智客戶端（以下簡稱本系統）時，我們可能會收集和使用您的相關信息。我們深知個人信息對您的重要性，因此我們非常重視保護您的隱私和個人信息，我們會將本隱私協議中的內容以高度審慎的義務對待和處理，并將恪守以下原則，保護您的個人信息：權責一致原則、目的明確原則、選擇同意原則、最少够用原則、公開透明原則、確保安全原則、主體參與原則、公開透明原則等。我們將按照法律法規的規定并參照行業最佳實踐保護您的個人信息及隱私安全。
         </view>
         <view class="margin-bottom-sm">您在下載、安裝、啓動、瀏覽、注册、登錄、使用本系統時，我們將按照本政策的約定處理和保護您的個人信息，因此我們希望您能够仔細閱讀、充分理解本政策的全文，并在需要時，按照本政策的指引，作出您認爲適當的選擇。</view>
         <view>1、隱私保護原則</view>
@@ -220,7 +220,7 @@
         <view class="margin-bottom-sm">
           7、阿裏播放器sdk公司名稱：阿裏雲計算有限公司涉及的個人信息類型：UUID、設備型號、IP地址程序供應商標志符（IDFV）、SIM卡或國際移動用戶識別碼（IMSI）信息等）。使用目的：爲音視頻播放提供穩定、流暢、豐富的服務。處理方式：sdk采集官網鏈接：<text @tap="goTowebView('https://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud202112151438_20307.html')">https://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud202112151438_20307.html</text>使用場景：應用中所有的音視頻播放
         </view>
-        <view class="margin-bottom-sm">澳門新大陸萬博科技有限公司客戶端</view>
+        <view class="margin-bottom-sm">澳门安智科技有限公司客戶端</view>
       </view>
     </view>
   </view>
