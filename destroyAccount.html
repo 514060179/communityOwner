@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動脈帳號註銷</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+      }
+
+      .title {
+        font-size: 24px;
+        margin-bottom: 30px;
+        font-weight: 1000;
+      }
+
+      .content>div {
+        margin-bottom: 10px;
+        color: #979797;
+      }
+
+      .privacy {
+        margin-top: 30px;
+      }
+
+      .button-box {
+        margin-top: 40px;
+        width: 150px;
+        height: 50px;
+        background: #C21DA0;
+        color: #fff;
+        border: 1px solid #C21DA0;
+        border-radius: 5px;
+      }
+
+      button:disabled {
+        opacity: 0.6;
+      }
+
+      /* 弹框 */
+      .pop_main {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(0, 0, 0, 0.5);
+        z-index: 1001;
+      }
+
+      .pop-content {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 350px;
+        background: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .pop-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .pop-hint {
+        color: rgba(0, 0, 0, 0.7);
+      }
+
+      .pop-button-container {
+        margin-top: 20px;
+      }
+
+      .pop-button {
+        width: 150px;
+        height: 50px;
+        background: #C21DA0;
+        color: #fff;
+        border: 1px solid #C21DA0;
+      }
+
+      .pop-button-default {
+        background-color: #979797;
+        border-color: #979797;
+      }
+
+      #phone {
+        width: 100%;
+        height: 50px;
+        border: 2px solid #C21DA0;
+        padding: 5px 10px;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      #first-content,
+      #second-content,
+      #third-content {
+        display: none;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        // 申请注销
+        $('.button-box').click(function() {
+          // 显示弹窗的主界面
+          $('.pop_main').show()
+          $('#first-content').show()
+          // 设置animate动画初始值
+          $('#first-content').css({ 'top': 0, 'opacity': 0 })
+          $('#first-content').animate({ 'top': '50px', 'opacity': 1 })
+        })
+
+        // 监听是否选中勾选
+        $("#scales").change(function() {
+          $("#con-confirm").attr("disabled", !($('#scales').is(':checked')));
+        });
+
+        // 监听手机号码
+        $("#phone").bind("input propertychange", function() {
+          $("#second-confirm").attr("disabled", !($("#phone").val().length > 5));
+        });
+
+        // 已知晓，继续注销
+        $('#confirm').click(function() {
+          $('#first-content').animate({ 'top': 0, 'opacity': 0 }, function() {
+            $('#first-content').hide()
+            $('#second-content').show()
+            $('#second-content').css({ 'top': 0, 'opacity': 0 })
+            $('#second-content').animate({ 'top': '50px', 'opacity': 1 })
+          })
+        })
+
+        // 提交手机号码
+        $('#second-confirm').click(function() {
+          $('#second-content').animate({ 'top': 0, 'opacity': 0 }, function() {
+            $('#second-content').hide()
+            $('#third-content').show()
+            $('#third-content').css({ 'top': 0, 'opacity': 0 })
+            $('#third-content').animate({ 'top': '50px', 'opacity': 1 })
+          })
+        })
+      })
+
+
+      function cancel(id) {
+        $(id).animate({ 'top': 0, 'opacity': 0 }, function() {
+          $(id).hide()
+          $('.pop_main').hide()
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">注销账号前请先对实名信息解绑</div>
+      <div class="content">
+        <div>（1）自愿放弃在此平台的资产和虛拟权益</div>
+        <div>（2）账户内无末完成的订单和服务</div>
+        <div>（3）在此平台及其他此平台业务中没有过便用该账户激活店铺及其他商业合作的记录</div>
+        <div>（4）无正在进行中的投诉举报或被投诉举报</div>
+        <div>（5）对应的此平台账户已注销且已妥善处理相关问题</div>
+        <div>（6）已经解除与其他网站授权登录或绑定关系</div>
+        <div>（7）账户当前为有效账户，非冻结状态</div>
+        <div>（8）实名账户已解除实名信息</div>
+        <div class="privacy">
+          <input type="checkbox" id="scales" name="scales" />
+          <span>申请注销即表示您自愿放弃账号内所有虚拟资产并同意 <a href="https://proprietor.newlandgo.com/destroyNotice.html" target="_blank">《账号注销须知》</a> </span>
+          <div>注销成功后，支持此平台账户登录的多项产品/服务将无法使用此账户</div>
+        </div>
+      </div>
+      <button class="button-box" id="con-confirm" disabled>申请注销</button>
+    </div>
+
+    <!-- 弹窗 -->
+    <div class="pop_main">
+      <!-- 内容一 ： 询问-->
+      <div class="pop-content" id="first-content">
+        <div class="pop-title">确认注销此账号？</div>
+        <div class="pop-hint">如继续注销将视为您自动放弃本权益，且后期无法恢复，敬请谅解！</div>
+        <div class="pop-button-container">
+          <button class="pop-button" id="confirm">已知晓，继续注销</button>
+          <button class="cancel pop-button pop-button-default" onClick="cancel('#first-content')">再想想</button>
+        </div>
+      </div>
+
+      <!-- 内容二：填写手机号码 -->
+      <div class="pop-content" id="second-content">
+        <div class="pop-title">请填写要注销的手机号码</div>
+        <input type="text" id="phone" placeholder="请填写您要注销的账号" maxlength="11" />
+        <div class="pop-button-container">
+          <button class="cancel pop-button pop-button-default" onClick="cancel('#second-content')">再想想</button>
+          <button class="pop-button" id="second-confirm" disabled loading>提交</button>
+        </div>
+      </div>
+
+      <!-- 内容三：提交成功 -->
+      <div class="pop-content" id="third-content">
+        <div class="pop-title">账号注销提交成功</div>
+        <div class="pop-hint">我们会在3～7个工作日内联系到您，在此期间请别登录此平台进行任何操作，否则将自动取消注销！</div>
+        <div class="pop-button-container" style="text-align: center;">
+          <button class="cancel pop-button" onClick="cancel('#third-content')">我知道了</button>
+        </div>
+      </div>
+
+    </div>
+  </body>
+
+  <script type="text/javascript">
+
+  </script>
+
+</html>
